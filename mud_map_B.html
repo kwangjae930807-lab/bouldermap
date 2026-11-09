@@ -4,5 +4,22 @@ const map=L.map('map');
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Esri'}).addTo(map);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',{maxZoom:19,pane:'shadowPane',opacity:0.95}).addTo(map);
 const g=[]; pts.forEach(p=>{ const c=L.circleMarker([p.lat,p.lon],{radius:11,color:'#111',weight:2,fillColor:p.color,fillOpacity:0.95}).addTo(map); if(p.n!=='') c.bindTooltip(String(p.n),{permanent:true,direction:'center',className:'lbl'}); c.bindPopup('<b>'+ (p.n? p.n+'. ':'') + p.name+'</b>'+(p.inf?'<br><span style="color:#666">구역 추정</span>':'')+'<br><span style="color:#666">'+p.sec+'</span>'); g.push([p.lat,p.lon]); });
-if(g.length) map.fitBounds(L.latLngBounds(g).pad(0.28)); else map.setView([35.1612,127.0022],17);
+
+function updateView() {
+  map.invalidateSize();
+  if (g.length > 1) {
+    try { map.fitBounds(L.latLngBounds(g).pad(0.35), { maxZoom: 18, minZoom: 15 }); } catch(e){}
+  } else if (g.length === 1) {
+    map.setView(g[0], 18);
+  } else {
+    map.setView([35.1612, 127.0022], 17);
+  }
+}
+updateView();
+const ro = new ResizeObserver(() => { updateView(); });
+ro.observe(document.getElementById('map'));
+window.addEventListener('resize', updateView);
+setTimeout(updateView, 400);
+setTimeout(updateView, 1200);
+
 </script></body></html>
