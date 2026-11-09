@@ -1,14 +1,13 @@
-<!doctype html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/><style>html,body,#map{height:100%;margin:0} .lbl{background:rgba(17,17,17,.82);color:#fff;border:0;border-radius:10px;padding:1px 6px;font:700 12px/1.3 system-ui,"Malgun Gothic",sans-serif;white-space:nowrap}.lbl:before{display:none} .title{position:absolute;z-index:999;left:10px;top:10px;background:rgba(0,0,0,.62);color:#fff;padding:6px 10px;border-radius:10px;font:700 15px/1.2 "Malgun Gothic",system-ui,sans-serif} .note{position:absolute;z-index:999;right:10px;bottom:10px;background:rgba(255,255,255,.9);color:#222;padding:4px 8px;border-radius:8px;font:12px/1.2 system-ui}</style></head><body><div class="title">무등산 S구역 볼더 위치</div><div id="map"></div><div class="note">위치: thetopo 좌표(대략) · 지도 API: Esri/OSM</div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
+<!doctype html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/><style>html,body{height:100%;margin:0;background:#191919;display:flex;justify-content:center;align-items:center} #map{width:100%;max-width:660px;height:100%;position:relative;border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.5)} .lbl{background:rgba(17,17,17,.82);color:#fff;border:0;border-radius:10px;padding:1px 6px;font:700 12px/1.3 system-ui,"Malgun Gothic",sans-serif;white-space:nowrap}.lbl:before{display:none} .title{position:absolute;z-index:999;left:10px;top:10px;background:rgba(0,0,0,.62);color:#fff;padding:6px 10px;border-radius:10px;font:700 15px/1.2 "Malgun Gothic",system-ui,sans-serif} .note{position:absolute;z-index:999;right:10px;bottom:10px;background:rgba(255,255,255,.9);color:#222;padding:4px 8px;border-radius:8px;font:12px/1.2 system-ui}</style></head><body><div class="title">무등산 S구역 볼더 위치</div><div id="map"></div><div class="note">위치: thetopo 좌표(대략) · 지도 API: Esri/OSM</div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
 const pts=[{"lat":35.161957,"lon":127.001782,"n":1,"name":"볼더러의 거둥길","sec":"S구역","color":"#ffffff","inf":true},{"lat":35.161854,"lon":127.001467,"n":2,"name":"춘식이도","sec":"S구역","color":"#ffffff","inf":true},{"lat":35.162102,"lon":127.002049,"n":3,"name":"코숭이","sec":"S구역","color":"#ffffff","inf":true},{"lat":35.162105,"lon":127.002815,"n":4,"name":"S1 싸락눈","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.162,"lon":127.0019,"n":5,"name":"S2 꽃등","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.16191,"lon":127.002536,"n":6,"name":"S6 보이지 않는너","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.161604,"lon":127.002338,"n":7,"name":"S7 견우와직녀","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.161613,"lon":127.0019,"n":8,"name":"S9 곰삭다","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.1616,"lon":127.0018,"n":9,"name":"S10 얼씨구","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.1613,"lon":127.001973,"n":10,"name":"S11 낮에 뜨는 별","sec":"S구역","color":"#ff9f40","inf":false}];
 const map=L.map('map');
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Esri'}).addTo(map);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',{maxZoom:19,pane:'shadowPane',opacity:0.95}).addTo(map);
 const g=[]; pts.forEach(p=>{ const c=L.circleMarker([p.lat,p.lon],{radius:11,color:'#111',weight:2,fillColor:p.color,fillOpacity:0.95}).addTo(map); if(p.n!=='') c.bindTooltip(String(p.n),{permanent:true,direction:'center',className:'lbl'}); c.bindPopup('<b>'+ (p.n? p.n+'. ':'') + p.name+'</b>'+(p.inf?'<br><span style="color:#666">구역 추정</span>':'')+'<br><span style="color:#666">'+p.sec+'</span>'); g.push([p.lat,p.lon]); });
-
 function updateView() {
   map.invalidateSize();
   if (g.length > 1) {
-    try { map.fitBounds(L.latLngBounds(g).pad(0.35), { maxZoom: 18, minZoom: 15 }); } catch(e){}
+    try { map.fitBounds(L.latLngBounds(g).pad(0.08), { maxZoom: 19, minZoom: 15 }); } catch(e){}
   } else if (g.length === 1) {
     map.setView(g[0], 18);
   } else {
@@ -21,5 +20,4 @@ ro.observe(document.getElementById('map'));
 window.addEventListener('resize', updateView);
 setTimeout(updateView, 400);
 setTimeout(updateView, 1200);
-
 </script></body></html>
