@@ -12,12 +12,25 @@ html,body{height:100%;margin:0;padding:0;background:#191919;overflow:hidden}
 .lbl:before{display:none}
 .title{position:absolute;z-index:999;left:10px;top:10px;background:rgba(0,0,0,.75);color:#fff;padding:6px 12px;border-radius:10px;font:700 14px/1.2 "Malgun Gothic",system-ui,sans-serif;backdrop-filter:blur(4px);pointer-events:none}
 .note{position:absolute;z-index:999;right:10px;bottom:10px;background:rgba(255,255,255,.92);color:#222;padding:4px 8px;border-radius:8px;font:11px/1.2 system-ui;pointer-events:none}
+.full{position:absolute;z-index:1000;right:10px;top:10px;background:rgba(0,0,0,.75);color:#fff;text-decoration:none;padding:6px 10px;border-radius:10px;font:700 12px/1.2 system-ui,"Malgun Gothic",sans-serif;backdrop-filter:blur(4px)}
+.hint{position:absolute;inset:0;z-index:1001;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);color:#fff;font:700 14px/1.4 system-ui,"Malgun Gothic",sans-serif;text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
+.hint.on{opacity:1}
+.lbl.cl{background:#ffd23f;color:#111}
+@media (max-width:480px){
+  #map-wrap{border-radius:8px}
+  .lbl{font-size:10px;padding:0 4px}
+  .title{font-size:12px;padding:4px 8px;left:6px;top:6px}
+  .full{font-size:11px;padding:4px 8px;right:6px;top:6px}
+  .note{display:none}
+}
 </style>
 </head>
 <body>
 <div id="map-wrap">
   <div class="title">무등산 B구역 볼더 위치</div>
+  <a class="full" id="full" href="#" target="_blank" rel="noopener">⤢ 크게 보기</a>
   <div id="map"></div>
+  <div class="hint" id="hint">두 손가락으로 지도를 움직이세요</div>
   <div class="note">위치: thetopo 좌표(대략) · 지도 API: Esri/OSM</div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -29,28 +42,92 @@ pts.forEach(p => { sumLat += p.lat; sumLon += p.lon; });
 const centerLat = pts.length ? (sumLat / pts.length) : 35.1610;
 const centerLon = pts.length ? (sumLon / pts.length) : 127.0024;
 
+// [모바일] 노션 안(iframe)인지, 터치 기기인지, 좁은 화면인지
+const inFrame = window.self !== window.top;
+const isTouch = window.matchMedia('(pointer:coarse)').matches || L.Browser.mobile;
+const isNarrow = window.matchMedia('(max-width:480px)').matches;
+
 const map = L.map('map', {
   center: [centerLat, centerLon],
   zoom: 18,
-  zoomControl: true
+  zoomControl: !isNarrow,          // 좁은 화면: +/- 숨김 (핀치로 확대)
+  dragging: !(inFrame && isTouch), // 노션 안 터치: 한 손가락은 페이지 스크롤
+  scrollWheelZoom: !inFrame        // 노션 안 PC: 휠은 페이지 스크롤
 });
+const R = isNarrow ? 8 : 11;
 
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Esri'}).addTo(map);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',{maxZoom:19,pane:'shadowPane',opacity:0.95}).addTo(map);
 
-const g = [];
-pts.forEach(p => {
+// [겹침 묶기] 현재 배율에서 화면상 겹치는 마커는 하나로 묶고 "+개수"로 표시 (RULES R2)
+const g = pts.map(p => [p.lat, p.lon]);
+const layer = L.layerGroup().addTo(map);
+const MERGE_PX = R * 2; // 두 마커 중심 거리가 지름보다 가까우면 겹침으로 판단
+function info(p) {
+  return '<b>' + (p.n ? p.n + '. ' : '') + p.name + '</b>'
+    + (p.inf ? '<br><span style="color:#666">구역 추정</span>' : '')
+    + '<br><span style="color:#666">' + p.sec + '</span>';
+}
+function drawOne(p) {
   const c = L.circleMarker([p.lat, p.lon], {
-    radius: 11,
-    color: '#111',
-    weight: 2,
-    fillColor: p.color,
-    fillOpacity: 0.95
-  }).addTo(map);
+    radius: R, color: '#111', weight: isNarrow ? 1.5 : 2, fillColor: p.color, fillOpacity: 0.95
+  }).addTo(layer);
   if (p.n !== '') c.bindTooltip(String(p.n), { permanent: true, direction: 'center', className: 'lbl' });
-  c.bindPopup('<b>' + (p.n ? p.n + '. ' : '') + p.name + '</b>' + (p.inf ? '<br><span style="color:#666">구역 추정</span>' : '') + '<br><span style="color:#666">' + p.sec + '</span>');
-  g.push([p.lat, p.lon]);
-});
+  c.bindPopup(info(p));
+}
+function drawGroup(list) {
+  const lat = list.reduce((s, p) => s + p.lat, 0) / list.length;
+  const lon = list.reduce((s, p) => s + p.lon, 0) / list.length;
+  const c = L.circleMarker([lat, lon], {
+    radius: R + 3, color: '#fff', weight: 2, fillColor: list[0].color, fillOpacity: 0.95
+  }).addTo(layer);
+  c.bindTooltip('+' + list.length, { permanent: true, direction: 'center', className: 'lbl cl' });
+  const html = '<b>볼더 ' + list.length + '개</b>' + list.map(p => '<br>' + (p.n ? p.n + '. ' : '') + p.name).join('');
+  c.on('click', () => {
+    if (map.getZoom() < map.getMaxZoom()) {
+      map.setView([lat, lon], Math.min(map.getZoom() + 2, map.getMaxZoom())); // 누르면 확대해서 풀기
+    } else {
+      c.bindPopup(html).openPopup(); // 최대 배율에서도 겹치면 목록 표시
+    }
+  });
+}
+function render() {
+  layer.clearLayers();
+  const xy = pts.map(p => map.latLngToLayerPoint([p.lat, p.lon]));
+  const used = new Array(pts.length).fill(false);
+  for (let i = 0; i < pts.length; i++) {
+    if (used[i]) continue;
+    used[i] = true;
+    const grp = [i];
+    for (let k = 0; k < grp.length; k++) {       // 연쇄로 겹친 마커까지 함께 묶음
+      for (let j = 0; j < pts.length; j++) {
+        if (!used[j] && xy[grp[k]].distanceTo(xy[j]) < MERGE_PX) { used[j] = true; grp.push(j); }
+      }
+    }
+    if (grp.length === 1) drawOne(pts[i]); else drawGroup(grp.map(x => pts[x]));
+  }
+}
+map.on('zoomend', render);
+render();
+
+// [모바일] 크게 보기: 노션 안에서만 표시, 같은 지도를 새 창으로
+const full = document.getElementById('full');
+if (inFrame) { full.href = location.href.split('#')[0]; } else { full.style.display = 'none'; }
+
+// [모바일] 노션 안에서 한 손가락으로 지도를 끌면 안내 표시
+if (inFrame && isTouch) {
+  const hint = document.getElementById('hint');
+  let t = null;
+  document.getElementById('map').addEventListener('touchmove', e => {
+    if (e.touches.length === 1) {
+      hint.classList.add('on');
+      clearTimeout(t);
+      t = setTimeout(() => hint.classList.remove('on'), 1200);
+    } else {
+      hint.classList.remove('on');
+    }
+  }, { passive: true });
+}
 
 function fitSafely() {
   map.invalidateSize();
