@@ -11,16 +11,37 @@ html,body{height:100%;margin:0;padding:0;background:#191919;overflow:hidden}
 .lbl{background:rgba(17,17,17,.85);color:#fff;border:0;border-radius:10px;padding:1px 6px;font:700 12px/1.3 system-ui,"Malgun Gothic",sans-serif;white-space:nowrap}
 .lbl:before{display:none}
 .title{position:absolute;z-index:999;left:10px;top:10px;background:rgba(0,0,0,.75);color:#fff;padding:6px 12px;border-radius:10px;font:700 14px/1.2 "Malgun Gothic",system-ui,sans-serif;backdrop-filter:blur(4px);pointer-events:none}
-.note{position:absolute;z-index:999;right:10px;bottom:10px;background:rgba(255,255,255,.92);color:#222;padding:4px 8px;border-radius:8px;font:11px/1.2 system-ui;pointer-events:none}
+.note{position:absolute;z-index:999;right:56px;bottom:12px;background:rgba(255,255,255,.92);color:#222;padding:4px 8px;border-radius:8px;font:11px/1.2 system-ui;pointer-events:none}
 .full{position:absolute;z-index:1000;right:10px;top:10px;background:rgba(0,0,0,.75);color:#fff;text-decoration:none;padding:6px 10px;border-radius:10px;font:700 12px/1.2 system-ui,"Malgun Gothic",sans-serif;backdrop-filter:blur(4px)}
 .hint{position:absolute;inset:0;z-index:1001;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);color:#fff;font:700 14px/1.4 system-ui,"Malgun Gothic",sans-serif;text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
 .hint.on{opacity:1}
 .lbl.cl{background:#ffd23f;color:#111}
+
+/* GPS 버튼 */
+.gps-btn{position:absolute;z-index:1000;right:10px;bottom:10px;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.25);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.5);transition:all .2s;outline:none;-webkit-tap-highlight-color:transparent}
+.gps-btn:active{transform:scale(0.92);background:rgba(40,40,40,.9)}
+.gps-btn.active{background:#007aff;border-color:#007aff;color:#fff}
+.gps-btn.loading svg{animation:spin 1s linear infinite}
+@keyframes spin{100%{transform:rotate(360deg)}}
+
+/* 현재 위치 파란 점 */
+.gps-marker-wrap{display:flex;align-items:center;justify-content:center;width:24px;height:24px}
+.gps-dot{position:relative;width:12px;height:12px;background:#007aff;border:2px solid #fff;border-radius:50%;box-shadow:0 0 5px rgba(0,0,0,.6)}
+.gps-pulse{position:absolute;width:28px;height:28px;border-radius:50%;background:rgba(0,122,255,.3);animation:gpsPulse 2s infinite ease-out;pointer-events:none}
+@keyframes gpsPulse{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.8);opacity:0}}
+
+/* 하단 알림 토스트 */
+.toast{position:absolute;bottom:16px;left:50%;transform:translateX(-50%) translateY(20px);z-index:1002;background:rgba(24,24,27,.95);color:#fff;padding:8px 16px;border-radius:20px;font:600 13px/1.4 system-ui,-apple-system,"Malgun Gothic",sans-serif;border:1px solid rgba(255,255,255,.18);box-shadow:0 6px 20px rgba(0,0,0,.6);backdrop-filter:blur(8px);pointer-events:none;opacity:0;transition:all .28s cubic-bezier(.16,1,.3,1);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .icon{font-size:14px;line-height:1}
+
 @media (max-width:480px){
   #map-wrap{border-radius:8px}
   .lbl{font-size:10px;padding:0 4px}
   .title{font-size:12px;padding:4px 8px;left:6px;top:6px}
   .full{font-size:11px;padding:4px 8px;right:6px;top:6px}
+  .gps-btn{width:36px;height:36px;right:8px;bottom:8px}
+  .toast{font-size:12px;padding:7px 14px;bottom:12px}
   .note{display:none}
 }
 </style>
@@ -32,9 +53,26 @@ html,body{height:100%;margin:0;padding:0;background:#191919;overflow:hidden}
   <div id="map"></div>
   <div class="hint" id="hint">두 손가락으로 지도를 움직이세요</div>
   <div class="note">위치: thetopo 좌표(대략) · 지도 API: Esri/OSM</div>
+
+  <button class="gps-btn" id="gps-btn" type="button" aria-label="현재 위치 찾기" title="현재 위치">
+    <svg id="gps-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="7"/>
+      <line x1="12" y1="2" x2="12" y2="5"/>
+      <line x1="12" y1="19" x2="12" y2="22"/>
+      <line x1="2" y1="12" x2="5" y2="12"/>
+      <line x1="19" y1="12" x2="22" y2="12"/>
+      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+    </svg>
+  </button>
+
+  <div class="toast" id="toast">
+    <span class="icon" id="toast-icon">📍</span>
+    <span id="toast-msg">현재 위치가 선비바위 구역이 아니에요</span>
+  </div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+const SECTOR_NAME = "선비바위 구역";
 const pts=[{"lat":35.160731,"lon":127.002247,"n":"","name":"B5 애오라지","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.161462,"lon":127.002736,"n":"","name":"U7 삼삼하게","sec":"U구역","color":"#c084fc","inf":false},{"lat":35.161311,"lon":127.002961,"n":"","name":"U6 Dirty","sec":"U구역","color":"#c084fc","inf":false},{"lat":35.160874,"lon":127.00205,"n":"","name":"B15 아름","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.160553,"lon":127.001193,"n":"","name":"E6 작은산","sec":"E구역","color":"#5fd068","inf":false},{"lat":35.160505,"lon":127.002271,"n":"","name":"B14 부라퀴","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.161419,"lon":127.002673,"n":"","name":"U4 홍겨숙","sec":"U구역","color":"#c084fc","inf":false},{"lat":35.161343,"lon":127.002832,"n":"","name":"U3 숲속의 정원","sec":"U구역","color":"#c084fc","inf":false},{"lat":35.1604,"lon":127.0012,"n":"","name":"E5 큰산","sec":"E구역","color":"#5fd068","inf":false},{"lat":35.16191,"lon":127.002536,"n":"","name":"S6 보이지 않는너","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.1613,"lon":127.003084,"n":"","name":"U10 풍운아성","sec":"U구역","color":"#c084fc","inf":false},{"lat":35.160835,"lon":127.002205,"n":"","name":"B16 2019MBF Man","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.161613,"lon":127.0019,"n":"","name":"S9 곰삭다","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.160479,"lon":127.002218,"n":"","name":"B3 날포","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.160678,"lon":127.001749,"n":"","name":"B8 저너머엔","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.161311,"lon":127.001797,"n":"","name":"B12 시작이 절반","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.161433,"lon":127.002747,"n":"","name":"U5 무명","sec":"U구역","color":"#c084fc","inf":false},{"lat":35.160693,"lon":127.001104,"n":"","name":"E7 탑이눈앞에","sec":"E구역","color":"#5fd068","inf":false},{"lat":35.161604,"lon":127.002338,"n":"","name":"S7 견우와직녀","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.161296,"lon":127.001635,"n":"","name":"B11 애지중지","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.1616,"lon":127.0018,"n":"","name":"S10 얼씨구","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.160146,"lon":127.002344,"n":"","name":"고통의 숲","sec":"B구역","color":"#4da3ff","inf":true},{"lat":35.160661,"lon":127.003586,"n":"","name":"Pinch Traverse","sec":"N구역","color":"#ffd23f","inf":true},{"lat":35.160345,"lon":127.00144,"n":"","name":"E2","sec":"E구역","color":"#5fd068","inf":false},{"lat":35.162102,"lon":127.002049,"n":"","name":"코숭이","sec":"S구역","color":"#ff9f40","inf":true},{"lat":35.162,"lon":127.0019,"n":"","name":"S2 꽃등","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.161321,"lon":127.002452,"n":"","name":"U1 사부자기","sec":"U구역","color":"#c084fc","inf":false},{"lat":35.160302,"lon":127.002605,"n":"","name":"일석사조","sec":"B구역","color":"#4da3ff","inf":true},{"lat":35.16055,"lon":127.002273,"n":"","name":"녹즙슬랩","sec":"B구역","color":"#4da3ff","inf":true},{"lat":35.161957,"lon":127.001782,"n":"","name":"볼더러의 거둥길","sec":"S구역","color":"#ff9f40","inf":true},{"lat":35.160517,"lon":127.002214,"n":"","name":"B2 황금햇살","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.1603,"lon":127.0024,"n":"","name":"엄지공주","sec":"B구역","color":"#4da3ff","inf":true},{"lat":35.1607,"lon":127.0019,"n":"","name":"B9 그린나래","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.1606,"lon":127.0016,"n":"","name":"E1 한울아","sec":"E구역","color":"#5fd068","inf":false},{"lat":35.161854,"lon":127.001467,"n":"","name":"춘식이도","sec":"S구역","color":"#ff9f40","inf":true},{"lat":35.16064,"lon":127.00187,"n":"","name":"B8 애그리나","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.1613,"lon":127.001973,"n":"","name":"S11 낮에 뜨는 별","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.160658,"lon":127.001916,"n":"","name":"B6 삼시세끼","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.1608,"lon":127.0035,"n":"","name":"N2 한반도","sec":"N구역","color":"#ffd23f","inf":false},{"lat":35.1607,"lon":127.0021,"n":"","name":"B7 여우비","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.16007,"lon":127.002281,"n":"","name":"5년전에","sec":"B구역","color":"#4da3ff","inf":true},{"lat":35.161496,"lon":127.002767,"n":"","name":"긍게","sec":"U구역","color":"#c084fc","inf":true},{"lat":35.162105,"lon":127.002815,"n":"","name":"S1 싸락눈","sec":"S구역","color":"#ff9f40","inf":false},{"lat":35.160541,"lon":127.002612,"n":"","name":"2월의 벚꽃","sec":"B구역","color":"#4da3ff","inf":true},{"lat":35.16063,"lon":127.002481,"n":"","name":"산타의 비밀상자","sec":"B구역","color":"#4da3ff","inf":true},{"lat":35.160352,"lon":127.001214,"n":"","name":"흑기사","sec":"E구역","color":"#5fd068","inf":true},{"lat":35.1607,"lon":127.003,"n":"","name":"N1 Eternal Sunshine","sec":"N구역","color":"#ffd23f","inf":false},{"lat":35.160969,"lon":127.003643,"n":"","name":"준희의 한글날","sec":"N구역","color":"#ffd23f","inf":true},{"lat":35.160413,"lon":127.001269,"n":"","name":"E4 4/4","sec":"E구역","color":"#5fd068","inf":false},{"lat":35.160711,"lon":127.003632,"n":"","name":"희노애락","sec":"N구역","color":"#ffd23f","inf":true},{"lat":35.161274,"lon":127.001512,"n":"","name":"B10 폭삭","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.160376,"lon":127.001363,"n":"","name":"E3","sec":"E구역","color":"#5fd068","inf":false},{"lat":35.1612,"lon":127.0032,"n":"","name":"N5 보릿고개","sec":"N구역","color":"#ffd23f","inf":false},{"lat":35.1614,"lon":127.0018,"n":"","name":"B13 종이 호랑이","sec":"B구역","color":"#4da3ff","inf":false},{"lat":35.160888,"lon":127.001883,"n":"","name":"양일이","sec":"B구역","color":"#4da3ff","inf":true}];
 
 let sumLat = 0, sumLon = 0;
@@ -42,7 +80,6 @@ pts.forEach(p => { sumLat += p.lat; sumLon += p.lon; });
 const centerLat = pts.length ? (sumLat / pts.length) : 35.1610;
 const centerLon = pts.length ? (sumLon / pts.length) : 127.0024;
 
-// [모바일] 노션 안(iframe)인지, 터치 기기인지, 좁은 화면인지
 const inFrame = window.self !== window.top;
 const isTouch = window.matchMedia('(pointer:coarse)').matches || L.Browser.mobile;
 const isNarrow = window.matchMedia('(max-width:480px)').matches;
@@ -50,19 +87,20 @@ const isNarrow = window.matchMedia('(max-width:480px)').matches;
 const map = L.map('map', {
   center: [centerLat, centerLon],
   zoom: 17,
-  zoomControl: !isNarrow,          // 좁은 화면: +/- 숨김 (핀치로 확대)
-  dragging: !(inFrame && isTouch), // 노션 안 터치: 한 손가락은 페이지 스크롤
-  scrollWheelZoom: !inFrame        // 노션 안 PC: 휠은 페이지 스크롤
+  zoomControl: !isNarrow,
+  dragging: !(inFrame && isTouch),
+  scrollWheelZoom: !inFrame
 });
 const R = isNarrow ? 7 : 11;
 
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Esri'}).addTo(map);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',{maxZoom:19,pane:'shadowPane',opacity:0.95}).addTo(map);
 
-// [겹침 묶기] 현재 배율에서 화면상 겹치는 마커는 하나로 묶고 "+개수"로 표시 (RULES R2)
 const g = pts.map(p => [p.lat, p.lon]);
+const sectorBounds = L.latLngBounds(g).pad(0.3);
+
 const layer = L.layerGroup().addTo(map);
-const MERGE_PX = R * 2; // 두 마커 중심 거리가 지름보다 가까우면 겹침으로 판단
+const MERGE_PX = R * 2;
 function info(p) {
   return '<b>' + (p.n ? p.n + '. ' : '') + p.name + '</b>'
     + (p.inf ? '<br><span style="color:#666">구역 추정</span>' : '')
@@ -85,9 +123,9 @@ function drawGroup(list) {
   const html = '<b>볼더 ' + list.length + '개</b>' + list.map(p => '<br>' + (p.n ? p.n + '. ' : '') + p.name).join('');
   c.on('click', () => {
     if (map.getZoom() < map.getMaxZoom()) {
-      map.setView([lat, lon], Math.min(map.getZoom() + 2, map.getMaxZoom())); // 누르면 확대해서 풀기
+      map.setView([lat, lon], Math.min(map.getZoom() + 2, map.getMaxZoom()));
     } else {
-      c.bindPopup(html).openPopup(); // 최대 배율에서도 겹치면 목록 표시
+      c.bindPopup(html).openPopup();
     }
   });
 }
@@ -99,7 +137,7 @@ function render() {
     if (used[i]) continue;
     used[i] = true;
     const grp = [i];
-    for (let k = 0; k < grp.length; k++) {       // 연쇄로 겹친 마커까지 함께 묶음
+    for (let k = 0; k < grp.length; k++) {
       for (let j = 0; j < pts.length; j++) {
         if (!used[j] && xy[grp[k]].distanceTo(xy[j]) < MERGE_PX) { used[j] = true; grp.push(j); }
       }
@@ -110,11 +148,9 @@ function render() {
 map.on('zoomend', render);
 render();
 
-// [모바일] 크게 보기: 노션 안에서만 표시, 같은 지도를 새 창으로
 const full = document.getElementById('full');
 if (inFrame) { full.href = location.href.split('#')[0]; } else { full.style.display = 'none'; }
 
-// [모바일] 노션 안에서 한 손가락으로 지도를 끌면 안내 표시
 if (inFrame && isTouch) {
   const hint = document.getElementById('hint');
   let t = null;
@@ -145,6 +181,110 @@ window.addEventListener('resize', fitSafely);
 window.addEventListener('load', fitSafely);
 setTimeout(fitSafely, 300);
 setTimeout(fitSafely, 1000);
+
+// [GPS 현재 위치 & 구역 검증 모듈]
+const toastEl = document.getElementById('toast');
+const toastIconEl = document.getElementById('toast-icon');
+const toastMsgEl = document.getElementById('toast-msg');
+const gpsBtn = document.getElementById('gps-btn');
+let toastTimer = null;
+
+function showToast(msg, icon = '📍', duration = 3200) {
+  toastMsgEl.textContent = msg;
+  toastIconEl.textContent = icon;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toastEl.classList.remove('show');
+  }, duration);
+}
+
+let userMarker = null;
+let accuracyCircle = null;
+
+function handlePosition(lat, lon, accuracy = 20) {
+  gpsBtn.classList.remove('loading');
+  const userLatLng = L.latLng(lat, lon);
+
+  const isInSector = sectorBounds.contains(userLatLng);
+
+  if (!isInSector) {
+    gpsBtn.classList.remove('active');
+    showToast(`현재 위치가 ${SECTOR_NAME}이 아니에요`, '⚠️', 3500);
+    return;
+  }
+
+  gpsBtn.classList.add('active');
+  showToast(`현재 위치가 ${SECTOR_NAME} 안이에요`, '📍', 2000);
+
+  if (!userMarker) {
+    const dotIcon = L.divIcon({
+      className: 'gps-marker-wrap',
+      html: '<div class="gps-pulse"></div><div class="gps-dot"></div>',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
+    });
+    userMarker = L.marker(userLatLng, { icon: dotIcon, zIndexOffset: 2000 }).addTo(map);
+    userMarker.bindPopup('<b>📍 내 현재 위치</b><br>오차범위: 약 ±' + Math.round(accuracy) + 'm');
+  } else {
+    userMarker.setLatLng(userLatLng);
+  }
+
+  if (accuracy && accuracy > 5) {
+    if (!accuracyCircle) {
+      accuracyCircle = L.circle(userLatLng, {
+        radius: Math.min(accuracy, 100),
+        color: '#007aff',
+        weight: 1,
+        fillColor: '#007aff',
+        fillOpacity: 0.15,
+        interactive: false
+      }).addTo(map);
+    } else {
+      accuracyCircle.setLatLng(userLatLng);
+      accuracyCircle.setRadius(Math.min(accuracy, 100));
+    }
+  }
+
+  map.flyTo(userLatLng, Math.max(map.getZoom(), 17), { duration: 0.8 });
+}
+
+function locateUser() {
+  gpsBtn.classList.add('loading');
+
+  if (!navigator.geolocation) {
+    gpsBtn.classList.remove('loading');
+    showToast('GPS 위치 기능을 지원하지 않는 브라우저예요', '⚠️');
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const { latitude, longitude, accuracy } = pos.coords;
+      handlePosition(latitude, longitude, accuracy);
+    },
+    err => {
+      gpsBtn.classList.remove('loading');
+      if (err.code === 1) {
+        if (inFrame) {
+          showToast('위치 권한이 차단되었어요 (상단 ⤢ 크게 보기 이용)', '🔒', 4000);
+        } else {
+          showToast('브라우저 위치 권한을 허용해주세요', '🔒', 3500);
+        }
+      } else if (err.code === 2) {
+        showToast('현재 위치 신호를 잡을 수 없어요', '⚠️');
+      } else if (err.code === 3) {
+        showToast('위치 확인 시간이 초과되었어요', '⏱️');
+      } else {
+        showToast('위치를 확인할 수 없어요', '⚠️');
+      }
+    },
+    { enableHighAccuracy: true, timeout: 8000, maximumAge: 10000 }
+  );
+}
+
+gpsBtn.addEventListener('click', locateUser);
+window.simulateGps = function(lat, lon, acc = 15) { handlePosition(lat, lon, acc); };
 </script>
 </body>
 </html>
