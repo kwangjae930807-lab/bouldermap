@@ -1,0 +1,280 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+html,body{height:100%;margin:0;padding:0;background:#191919;overflow:hidden}
+#map-wrap{width:100%;max-width:580px;height:100%;margin:0 auto;position:relative;border-radius:12px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,0.08)}
+#map{width:100%;height:100%}
+.lbl{background:rgba(17,17,17,.85);color:#fff;border:0;border-radius:10px;padding:1px 6px;font:700 12px/1.3 system-ui,"Malgun Gothic",sans-serif;white-space:nowrap}
+.lbl:before{display:none}
+.title{position:absolute;z-index:999;left:10px;top:10px;background:rgba(0,0,0,.75);color:#fff;padding:6px 12px;border-radius:10px;font:700 14px/1.2 "Malgun Gothic",system-ui,sans-serif;backdrop-filter:blur(4px);pointer-events:none}
+.note{position:absolute;z-index:999;right:56px;bottom:12px;background:rgba(255,255,255,.92);color:#222;padding:4px 8px;border-radius:8px;font:11px/1.2 system-ui;pointer-events:none}
+.full{position:absolute;z-index:1000;right:10px;top:10px;background:rgba(0,0,0,.75);color:#fff;text-decoration:none;padding:6px 10px;border-radius:10px;font:700 12px/1.2 system-ui,"Malgun Gothic",sans-serif;backdrop-filter:blur(4px)}
+.hint{position:absolute;inset:0;z-index:1001;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);color:#fff;font:700 14px/1.4 system-ui,"Malgun Gothic",sans-serif;text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
+.hint.on{opacity:1}
+.lbl.cl{background:#ffd23f;color:#111}
+
+/* GPS 버튼 */
+.gps-btn{position:absolute;z-index:1000;right:10px;bottom:10px;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.25);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.5);transition:all .2s;outline:none;-webkit-tap-highlight-color:transparent}
+.gps-btn:active{transform:scale(0.92);background:rgba(40,40,40,.9)}
+.gps-btn.active{background:#007aff;border-color:#007aff;color:#fff}
+.gps-btn.loading svg{animation:spin 1s linear infinite}
+@keyframes spin{100%{transform:rotate(360deg)}}
+
+/* 현재 위치 파란 점 */
+.gps-marker-wrap{display:flex;align-items:center;justify-content:center;width:24px;height:24px}
+.gps-dot{position:relative;width:12px;height:12px;background:#007aff;border:2px solid #fff;border-radius:50%;box-shadow:0 0 5px rgba(0,0,0,.6)}
+.gps-pulse{position:absolute;width:28px;height:28px;border-radius:50%;background:rgba(0,122,255,.3);animation:gpsPulse 2s infinite ease-out;pointer-events:none}
+@keyframes gpsPulse{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.8);opacity:0}}
+
+/* 하단 알림 토스트 */
+.toast{position:absolute;bottom:16px;left:50%;transform:translateX(-50%) translateY(20px);z-index:1002;background:rgba(24,24,27,.95);color:#fff;padding:8px 16px;border-radius:20px;font:600 13px/1.4 system-ui,-apple-system,"Malgun Gothic",sans-serif;border:1px solid rgba(255,255,255,.18);box-shadow:0 6px 20px rgba(0,0,0,.6);backdrop-filter:blur(8px);pointer-events:none;opacity:0;transition:all .28s cubic-bezier(.16,1,.3,1);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .icon{font-size:14px;line-height:1}
+
+@media (max-width:480px){
+  #map-wrap{border-radius:8px}
+  .lbl{font-size:10px;padding:0 4px}
+  .title{font-size:12px;padding:4px 8px;left:6px;top:6px}
+  .full{font-size:11px;padding:4px 8px;right:6px;top:6px}
+  .gps-btn{width:36px;height:36px;right:8px;bottom:8px}
+  .toast{font-size:12px;padding:7px 14px;bottom:12px}
+  .note{display:none}
+}
+</style>
+</head>
+<body>
+<div id="map-wrap">
+  <div class="title">불암산 볼더링 전체 지도</div>
+  <a class="full" id="full" href="#" target="_blank" rel="noopener">⤢ 크게 보기</a>
+  <div id="map"></div>
+  <div class="hint" id="hint">두 손가락으로 지도를 움직이세요</div>
+  <div class="note">위치: thetopo 좌표 · 지도 API: Esri/CARTO</div>
+
+  <button class="gps-btn" id="gps-btn" type="button" aria-label="현재 위치 찾기" title="현재 위치">
+    <svg id="gps-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="7"/>
+      <line x1="12" y1="2" x2="12" y2="5"/>
+      <line x1="12" y1="19" x2="12" y2="22"/>
+      <line x1="2" y1="12" x2="5" y2="12"/>
+      <line x1="19" y1="12" x2="22" y2="12"/>
+      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+    </svg>
+  </button>
+
+  <div class="toast" id="toast">
+    <span class="icon" id="toast-icon">📍</span>
+    <span id="toast-msg">현재 위치가 불암산 볼더 구역이 아니에요</span>
+  </div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const SECTOR_NAME = "불암산 볼더 구역";
+const pts = [{"n":1,"name":"마당바위(Madang)","sec":"마당바위","lat":37.658615,"lon":127.098789,"color":"#ef4444","routesCount":18},{"n":2,"name":"비보이를 사랑한 발레리나","sec":"발레리나","lat":37.658615,"lon":127.098789,"color":"#f97316","routesCount":3},{"n":3,"name":"Iceberg Sector","sec":"아이스버그","lat":37.658615,"lon":127.098789,"color":"#06b6d4","routesCount":25},{"n":4,"name":"Monorail Sector","sec":"모노레일","lat":37.658615,"lon":127.098789,"color":"#3b82f6","routesCount":13},{"n":5,"name":"Monorail Boulder1","sec":"모노레일1","lat":37.658615,"lon":127.098789,"color":"#60a5fa","routesCount":1},{"n":6,"name":"the V8 Block","sec":"the V8","lat":37.658615,"lon":127.098789,"color":"#8b5cf6","routesCount":5},{"n":7,"name":"Warmup Block 2","sec":"웜업2","lat":37.658615,"lon":127.098789,"color":"#10b981","routesCount":15},{"n":8,"name":"Warmup block","sec":"웜업","lat":37.658615,"lon":127.098789,"color":"#34d399","routesCount":2},{"n":9,"name":"Freaking","sec":"프리킹","lat":37.658615,"lon":127.098789,"color":"#eab308","routesCount":1},{"n":10,"name":"Pogostick Block","sec":"포고스틱","lat":37.658615,"lon":127.098789,"color":"#a855f7","routesCount":1},{"n":11,"name":"River Sector","sec":"리버","lat":37.658615,"lon":127.098789,"color":"#14b8a6","routesCount":1},{"n":12,"name":"Snakehead Block","sec":"스네이크헤드","lat":37.658615,"lon":127.098789,"color":"#ec4899","routesCount":2},{"n":13,"name":"The Harp Block","sec":"더 하프","lat":37.658615,"lon":127.098789,"color":"#f43f5e","routesCount":1},{"n":14,"name":"Total Recall Block","sec":"토탈 리콜","lat":37.658615,"lon":127.098789,"color":"#64748b","routesCount":2}];
+const centerLat = 37.6596;
+const centerLon = 127.0988;
+
+const inFrame = window.self !== window.top;
+const isTouch = window.matchMedia('(pointer:coarse)').matches || L.Browser.mobile;
+const isNarrow = window.matchMedia('(max-width:480px)').matches;
+
+const map = L.map('map', {
+  center: [centerLat, centerLon],
+  zoom: 16,
+  zoomControl: !isNarrow,
+  dragging: !(inFrame && isTouch),
+  scrollWheelZoom: !inFrame
+});
+const R = isNarrow ? (7) : 11;
+
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Esri'}).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',{maxZoom:19,pane:'shadowPane',opacity:0.95}).addTo(map);
+
+const g = pts.map(p => [p.lat, p.lon]);
+const sectorBounds = g.length > 1
+  ? L.latLngBounds(g).pad(0.35)
+  : L.latLngBounds([[g[0][0] - 0.0012, g[0][1] - 0.0012], [g[0][0] + 0.0012, g[0][1] + 0.0012]]);
+
+const layer = L.layerGroup().addTo(map);
+const MERGE_PX = R * 2;
+function info(p) {
+  return '<b>' + (p.n ? p.n + '. ' : '') + p.name + '</b>'
+    + (p.routesCount ? '<br><span style="color:#666">루트 ' + p.routesCount + '개</span>' : '')
+    + '<br><span style="color:#666">' + p.sec + '</span>';
+}
+function drawOne(p) {
+  const c = L.circleMarker([p.lat, p.lon], {
+    radius: R, color: '#111', weight: isNarrow ? 1.5 : 2, fillColor: p.color, fillOpacity: 0.95
+  }).addTo(layer);
+  if (p.n !== '') c.bindTooltip(String(p.n), { permanent: true, direction: 'center', className: 'lbl' });
+  c.bindPopup(info(p));
+}
+function drawGroup(list) {
+  const lat = list.reduce((s, p) => s + p.lat, 0) / list.length;
+  const lon = list.reduce((s, p) => s + p.lon, 0) / list.length;
+  const c = L.circleMarker([lat, lon], {
+    radius: R + 3, color: '#fff', weight: 2, fillColor: list[0].color, fillOpacity: 0.95
+  }).addTo(layer);
+  c.bindTooltip('+' + list.length, { permanent: true, direction: 'center', className: 'lbl cl' });
+  const html = '<b>볼더 ' + list.length + '개</b>' + list.map(p => '<br>' + (p.n ? p.n + '. ' : '') + p.name).join('');
+  c.on('click', () => {
+    if (map.getZoom() < map.getMaxZoom()) {
+      map.setView([lat, lon], Math.min(map.getZoom() + 2, map.getMaxZoom()));
+    } else {
+      c.bindPopup(html).openPopup();
+    }
+  });
+}
+function render() {
+  layer.clearLayers();
+  const xy = pts.map(p => map.latLngToLayerPoint([p.lat, p.lon]));
+  const used = new Array(pts.length).fill(false);
+  for (let i = 0; i < pts.length; i++) {
+    if (used[i]) continue;
+    used[i] = true;
+    const grp = [i];
+    for (let k = 0; k < grp.length; k++) {
+      for (let j = 0; j < pts.length; j++) {
+        if (!used[j] && xy[grp[k]].distanceTo(xy[j]) < MERGE_PX) { used[j] = true; grp.push(j); }
+      }
+    }
+    if (grp.length === 1) drawOne(pts[i]); else drawGroup(grp.map(x => pts[x]));
+  }
+}
+map.on('zoomend', render);
+render();
+
+const full = document.getElementById('full');
+if (inFrame) { full.href = location.href.split('#')[0]; } else { full.style.display = 'none'; }
+
+if (inFrame && isTouch) {
+  const hint = document.getElementById('hint');
+  let t = null;
+  document.getElementById('map').addEventListener('touchmove', e => {
+    if (e.touches.length === 1) {
+      hint.classList.add('on');
+      clearTimeout(t);
+      t = setTimeout(() => hint.classList.remove('on'), 1200);
+    } else {
+      hint.classList.remove('on');
+    }
+  }, { passive: true });
+}
+
+function fitSafely() {
+  map.invalidateSize();
+  if (g.length > 1) {
+    const b = L.latLngBounds(g).pad(0.08);
+    try { map.fitBounds(b, { maxZoom: 19, minZoom: 15 }); } catch(e){}
+  } else if (g.length === 1) {
+    map.setView([g[0][0], g[0][1]], 16);
+  }
+}
+
+if ('ResizeObserver' in window) {
+  new ResizeObserver(() => fitSafely()).observe(document.getElementById('map-wrap'));
+}
+window.addEventListener('resize', fitSafely);
+window.addEventListener('load', () => { setTimeout(fitSafely, 300); setTimeout(fitSafely, 1000); });
+
+/* GPS 기능 */
+const gpsBtn = document.getElementById('gps-btn');
+const toast = document.getElementById('toast');
+const toastMsg = document.getElementById('toast-msg');
+const toastIcon = document.getElementById('toast-icon');
+let toastTimer = null;
+let userMarker = null;
+let accuracyCircle = null;
+
+function showToast(text, icon = '📍', duration = 3500) {
+  clearTimeout(toastTimer);
+  toastMsg.textContent = text;
+  toastIcon.textContent = icon;
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => { toast.classList.remove('show'); }, duration);
+}
+
+function handlePosition(lat, lon, accuracy) {
+  gpsBtn.classList.remove('loading');
+  const userLatLng = L.latLng(lat, lon);
+  const inside = sectorBounds.contains(userLatLng);
+
+  if (!inside) {
+    gpsBtn.classList.remove('active');
+    showToast('현재 위치가 ' + SECTOR_NAME + '이 아니에요', '⚠️', 3500);
+    return;
+  }
+
+  gpsBtn.classList.add('active');
+  showToast('현재 위치가 ' + SECTOR_NAME + ' 안이에요', '✅', 2000);
+
+  const dotHtml = '<div class="gps-marker-wrap"><div class="gps-pulse"></div><div class="gps-dot"></div></div>';
+  const dotIcon = L.divIcon({ html: dotHtml, className: '', iconSize: [24, 24], iconAnchor: [12, 12] });
+
+  if (!userMarker) {
+    userMarker = L.marker(userLatLng, { icon: dotIcon, zIndexOffset: 2000 }).addTo(map);
+  } else {
+    userMarker.setLatLng(userLatLng);
+  }
+
+  if (accuracy && accuracy > 5) {
+    if (!accuracyCircle) {
+      accuracyCircle = L.circle(userLatLng, {
+        radius: Math.min(accuracy, 100),
+        color: '#007aff',
+        weight: 1,
+        fillColor: '#007aff',
+        fillOpacity: 0.15,
+        interactive: false
+      }).addTo(map);
+    } else {
+      accuracyCircle.setLatLng(userLatLng);
+      accuracyCircle.setRadius(Math.min(accuracy, 100));
+    }
+  }
+
+  map.flyTo(userLatLng, Math.max(map.getZoom(), 17), { duration: 0.8 });
+}
+
+function locateUser() {
+  gpsBtn.classList.add('loading');
+
+  if (!navigator.geolocation) {
+    gpsBtn.classList.remove('loading');
+    showToast('GPS 위치 기능을 지원하지 않는 브라우저예요', '⚠️');
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const { latitude, longitude, accuracy } = pos.coords;
+      handlePosition(latitude, longitude, accuracy);
+    },
+    err => {
+      gpsBtn.classList.remove('loading');
+      if (err.code === 1) {
+        if (inFrame) {
+          showToast('위치 권한이 차단되었어요 (상단 ⤢ 크게 보기 이용)', '🔒', 4000);
+        } else {
+          showToast('브라우저 위치 권한을 허용해주세요', '🔒', 3500);
+        }
+      } else if (err.code === 2) {
+        showToast('현재 위치 신호를 잡을 수 없어요', '⚠️');
+      } else if (err.code === 3) {
+        showToast('위치 확인 시간이 초과되었어요', '⏱️');
+      } else {
+        showToast('위치를 확인할 수 없어요', '⚠️');
+      }
+    },
+    { enableHighAccuracy: true, timeout: 8000, maximumAge: 10000 }
+  );
+}
+
+gpsBtn.addEventListener('click', locateUser);
+window.simulateGps = function(lat, lon, acc = 15) { handlePosition(lat, lon, acc); };
+</script>
+</body>
+</html>
