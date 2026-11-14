@@ -1,0 +1,200 @@
+{
+ "updated": "2026-11-14T11:20:33+09:00",
+ "source": "thetopo-resolved",
+ "routes": [
+  {
+   "route_id": 239698,
+   "num": 14,
+   "name": "Deadpool",
+   "grade": "7B",
+   "vgrade": "V8",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/deadpool-239698",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 239697,
+   "num": 15,
+   "name": "One Shot One Kill",
+   "grade": "6B+",
+   "vgrade": "V4",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/one-shot-one-kill",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 318595,
+   "num": 16,
+   "name": "Couch potato",
+   "grade": "6C",
+   "vgrade": "V5",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/couch-potato-318595",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 240058,
+   "num": 17,
+   "name": "8.15",
+   "grade": "6B+",
+   "vgrade": "V4",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/8-15-240058",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 471787,
+   "num": 18,
+   "name": "새우깡",
+   "grade": "6C+",
+   "vgrade": "V5",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/471787",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 240059,
+   "num": 19,
+   "name": "Armstrong",
+   "grade": "7A",
+   "vgrade": "V6",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/armstrong-240059",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 240683,
+   "num": 20,
+   "name": "Frightening guy(무서운 놈)",
+   "grade": "6C",
+   "vgrade": "V5",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/frightening-guy",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 240066,
+   "num": 21,
+   "name": "Baby Step",
+   "grade": "5+",
+   "vgrade": "V2",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/baby-step",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 240065,
+   "num": 22,
+   "name": "Super Charge",
+   "grade": "7C+",
+   "vgrade": "V10",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/super-charge",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 240064,
+   "num": 23,
+   "name": "First Charge",
+   "grade": "7B+",
+   "vgrade": "V8",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/first-charge-240064",
+   "alt_urls": [
+    "https://thetopo.com/crags/15957/routes/first-charge"
+   ],
+   "has_line": true
+  },
+  {
+   "route_id": 295436,
+   "num": 35,
+   "name": "Pebble Wrestler",
+   "grade": "6C+",
+   "vgrade": "V5",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/pebble-wrestler-295436",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 295437,
+   "num": 36,
+   "name": "Valar Morghulis",
+   "grade": "7C",
+   "vgrade": "V9",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/valar-morghulis-295437",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 295439,
+   "num": 37,
+   "name": "Tadpole",
+   "grade": "6A+",
+   "vgrade": "V3",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/tadpole-295439",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 295441,
+   "num": 38,
+   "name": "Broken Scouter",
+   "grade": "7A+",
+   "vgrade": "V7",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/broken-scouter",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 295438,
+   "num": 39,
+   "name": "Frog",
+   "grade": "7A",
+   "vgrade": "V6",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/frog-295438",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 295440,
+   "num": 40,
+   "name": "Know When to Fold",
+   "grade": "6C+",
+   "vgrade": "V5",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/know-when-to-fold",
+   "alt_urls": [],
+   "has_line": true
+  }
+ ]
+}
