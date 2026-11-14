@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>감자볼더 토포</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#191919;color:#e8e8e8;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Segoe UI",sans-serif}
+  #app{max-width:580px;margin:0 auto;padding:0 0 6px;position:relative}
+  .photo{margin:0 0 14px}
+  .stage{position:relative;width:100%;line-height:0;background:#222;overflow:hidden}
+  .stage img{width:100%;height:auto;display:block}
+  .stage svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden}
+  .legend{background:rgba(15,23,42,.75);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 10px;line-height:1.3;font-size:13px}
+  .legend.below{margin:8px 8px 0;background:#222a38}
+  .legend.over{position:absolute;max-width:48%;font-size:11px;padding:6px 8px;z-index:2}
+  .legend h3{margin:0 0 5px;font-size:13px;font-weight:700;color:#fff}
+  .legend.over h3{font-size:11px}
+  .row{display:flex;align-items:center;gap:7px;padding:2px 0}
+  .bd{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid #fff;color:#fff;font-weight:700;font-size:11px;
+    display:flex;align-items:center;justify-content:center;text-shadow:0 0 2px rgba(0,0,0,.7)}
+  .legend.over .bd{width:17px;height:17px;font-size:9px;border-width:1.5px}
+  .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .vg{flex:none;font-weight:700;font-size:11px;padding:1px 6px;border-radius:8px;background:rgba(255,255,255,.12);color:#fff}
+  #foot{font-size:10px;color:#777;text-align:center;padding:2px 0 4px}
+  #err{padding:20px;color:#ff8a80;text-align:center;font-size:14px}
+  #big{position:fixed;right:8px;top:8px;z-index:10;background:rgba(15,23,42,.8);color:#fff;border:1px solid rgba(255,255,255,.25);
+    border-radius:8px;padding:5px 10px;font-size:12px;text-decoration:none;display:none}
+</style>
+</head>
+<body>
+<a id="big" target="_blank" rel="noopener">⤢ 크게 보기</a>
+<div id="app"></div>
+<div id="foot"></div>
+<script>
+(function(){
+  var qs=new URLSearchParams(location.search);
+  var key=qs.get('b'), pSel=parseInt(qs.get('p')||'0',10), data=qs.get('data');
+  var gFile=data==='sample'?'sample_geometry.json':'gamja_topo_geometry.json';
+  var rFile=data==='sample'?'sample_routes.json':'gamja_routes.json';
+  var app=document.getElementById('app'), foot=document.getElementById('foot');
+  var NS='http://www.w3.org/2000/svg';
+
+  // 노션 임베드(iframe) 안에서만 크게 보기 버튼 표시
+  var inFrame=false; try{inFrame=window.self!==window.top}catch(e){inFrame=true}
+  if(inFrame){var big=document.getElementById('big');big.href=location.href;big.style.display='block'}
+
+  function fetchJson(f){return fetch(f+'?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error(f+' '+r.status);return r.json()})}
+  function showErr(m){app.innerHTML='<div id="err"></div>';document.getElementById('err').textContent=m}
+
+  function gradeColor(v){
+    var m=/^V(B|\d+)$/i.exec((v||'').trim()); if(!m)return '#9e9e9e';
+    var n=m[1].toUpperCase()==='B'?0:parseInt(m[1],10);
+    if(n<=1)return '#00e5ff'; if(n<=3)return '#76ff03'; if(n===4)return '#ffd600';
+    if(n<=6)return '#ff6d00'; if(n===7)return '#ff1744'; if(n===8)return '#d500f9'; return '#ffab00';
+  }
+  function textColor(c){return (c==='#76ff03'||c==='#ffd600'||c==='#00e5ff'||c==='#ffab00')?'#111':'#fff'}
+
+  // Catmull-Rom -> cubic Bezier path
+  function spline(P){
+    if(P.length<2)return '';
+    var d='M'+P[0].x.toFixed(1)+' '+P[0].y.toFixed(1);
+    for(var i=0;i<P.length-1;i++){
+      var p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2;
+      d+=' C'+(p1.x+(p2.x-p0.x)/6).toFixed(1)+' '+(p1.y+(p2.y-p0.y)/6).toFixed(1)+' '+
+        (p2.x-(p3.x-p1.x)/6).toFixed(1)+' '+(p2.y-(p3.y-p1.y)/6).toFixed(1)+' '+p2.x.toFixed(1)+' '+p2.y.toFixed(1);
+    }
+    return d;
+  }
+  function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+
+  function legendEl(title,items,cls){
+    var L=document.createElement('div');L.className='legend '+cls;
+    var h=document.createElement('h3');h.textContent=title;L.appendChild(h);
+    items.forEach(function(it){
+      var r=document.createElement('div');r.className='row';
+      var b=document.createElement('span');b.className='bd';b.textContent=it.label;b.style.background=it.color;b.style.color=textColor(it.color);
+      var n=document.createElement('span');n.className='nm';n.textContent=it.name;
+      var v=document.createElement('span');v.className='vg';v.textContent=it.v;
+      r.appendChild(b);r.appendChild(n);r.appendChild(v);L.appendChild(r);
+    });
+    return L;
+  }
+
+  // 시작점 배지 겹침 처리: 가까운 배지는 바깥으로 밀고 점선 리더선 연결
+  // 후보 위치(자기 시작점 + 여러 방향·거리)를 비용으로 평가:
+  //  - 이미 놓인 배지와 겹치면(중심거리 < 2.4R) 제외, 다른 루트 시작점을 덮으면 큰 감점, 멀수록 감점
+  function placeBadges(items,R,W,H){
+    var minD=R*2.4, placed=[];
+    // 시작점이 붐비는 루트부터 먼저 배치
+    var order=items.slice().sort(function(a,b){
+      function crowd(i){return items.filter(function(o){return o!==i&&Math.hypot(o.start.x-i.start.x,o.start.y-i.start.y)<R*3.5}).length}
+      return crowd(b)-crowd(a);
+    });
+    function clamp(p){return{x:Math.max(R+2,Math.min(W-R-2,p.x)),y:Math.max(R+2,Math.min(H-R-2,p.y))}}
+    order.forEach(function(it){
+      var s=it.start,best=null,bc=1e18;
+      var cands=[{x:s.x,y:s.y}];
+      for(var ring=1;ring<=6;ring++){
+        for(var k=0;k<16;k++){
+          var a=-Math.PI/2+k*Math.PI/8;
+          cands.push({x:s.x+Math.cos(a)*R*1.7*ring,y:s.y+Math.sin(a)*R*1.7*ring});
+        }
+      }
+      cands.forEach(function(c0){
+        var c=clamp(c0);
+        for(var i=0;i<placed.length;i++){if(Math.hypot(placed[i].x-c.x,placed[i].y-c.y)<minD)return}
+        var cost=Math.hypot(c.x-s.x,c.y-s.y);
+        items.forEach(function(o){
+          if(o===it)return;
+          var d=Math.hypot(o.start.x-c.x,o.start.y-c.y);
+          if(d<R*1.5)cost+=R*6;           // 남의 시작점 위에 얹지 않기
+          else if(d<R*2.2)cost+=R*1.5;
+        });
+        cost+=(c0.y<s.y?0:R*0.15);          // 위쪽 후보 약간 선호(바위 아래 땅/사진 가장자리 회피)
+        if(cost<bc){bc=cost;best=c}
+      });
+      if(!best)best=clamp(s);
+      it.pos=best;placed.push(best);
+    });
+  }
+
+  function render(boulder,photo,idx,routeMap,wrap){
+    var img=wrap.querySelector('img'),stage=wrap.querySelector('.stage');
+    var W=img.naturalWidth||1120,H=img.naturalHeight||630;
+    var old=stage.querySelector('svg');if(old)stage.removeChild(old);
+    wrap.querySelectorAll('.legend').forEach(function(x){x.parentNode.removeChild(x)});
+    var scale=W/(stage.clientWidth||W);      // 화면 1px = viewBox scale 단위
+    var R=12*scale, lw=4*scale, ow=6.5*scale;
+    var svg=el('svg',{viewBox:'0 0 '+W+' '+H,preserveAspectRatio:'xMidYMid meet'},stage);
+    var items=[];
+    photo.lines.forEach(function(ln){
+      var r=routeMap[ln.route_id], miss=!r;
+      var color=miss?'#9e9e9e':gradeColor(r.vgrade);
+      var P=(ln.points||[]).map(function(p){return{x:p.x*W,y:p.y*H}});
+      if(!P.length)return;
+      items.push({line:ln,P:P,start:P[0],end:P[P.length-1],color:color,
+        label:miss?'?':String(r.num),name:miss?'(정보 없음) #'+ln.route_id:r.name,v:miss?'-':(r.vgrade||'-'),
+        order:miss?9999:r.num});
+    });
+    items.forEach(function(it){
+      var d=spline(it.P);
+      if(d){
+        el('path',{d:d,fill:'none',stroke:'rgba(0,0,0,.6)','stroke-width':ow,'stroke-linecap':'round','stroke-linejoin':'round'},svg);
+        el('path',{d:d,fill:'none',stroke:it.color,'stroke-width':lw,'stroke-linecap':'round','stroke-linejoin':'round'},svg);
+      }
+      // 탑 마커
+      el('ellipse',{cx:it.end.x,cy:it.end.y,rx:R*.55,ry:R*.4,fill:it.color,stroke:'#fff','stroke-width':scale*1.5},svg);
+    });
+    placeBadges(items,R,W,H);
+    // 1패스: 리더선·시작점(모든 배지보다 아래), 2패스: 배지
+    items.forEach(function(it){
+      if(Math.hypot(it.pos.x-it.start.x,it.pos.y-it.start.y)>1){
+        el('line',{x1:it.start.x,y1:it.start.y,x2:it.pos.x,y2:it.pos.y,stroke:'rgba(0,0,0,.65)','stroke-width':scale*3.5},svg);
+        el('line',{x1:it.start.x,y1:it.start.y,x2:it.pos.x,y2:it.pos.y,stroke:'#fff','stroke-width':scale*1.6,'stroke-dasharray':(4*scale)+' '+(3*scale)},svg);
+        el('circle',{cx:it.start.x,cy:it.start.y,r:R*.28,fill:it.color,stroke:'#fff','stroke-width':scale*1.5},svg);
+      }
+    });
+    items.forEach(function(it){
+      el('circle',{cx:it.pos.x,cy:it.pos.y,r:R,fill:it.color,stroke:'#fff','stroke-width':scale*2},svg);
+      var t=el('text',{x:it.pos.x,y:it.pos.y,'text-anchor':'middle','dominant-baseline':'central','font-size':(it.label.length>2?R*.95:R*1.2),
+        'font-weight':700,'font-family':'-apple-system,Helvetica,Arial,sans-serif',fill:textColor(it.color)},svg);
+      t.textContent=it.label;
+    });
+
+    // 범례: 좁은 화면은 사진 아래, 넓은 화면은 선이 가장 적은 모서리에 겹쳐 표시
+    var legItems=items.slice().sort(function(a,b){return a.order-b.order}).map(function(it){return{label:it.label,color:it.color,name:it.name,v:it.v}});
+    var title=boulder.name+(boulder.photos.length>1?'  ('+(idx+1)+'/'+boulder.photos.length+')':'');
+    var sw=stage.clientWidth, placedOver=false;
+    if(sw>=520&&legItems.length<=5){
+      var L=legendEl(title,legItems,'over');stage.appendChild(L);
+      var lw2=L.offsetWidth,lh2=L.offsetHeight,m=8;
+      var corners=[[m,m],[sw-lw2-m,m],[m,stage.clientHeight-lh2-m],[sw-lw2-m,stage.clientHeight-lh2-m]];
+      var best=null,bs=1e18;
+      corners.forEach(function(c){
+        var cost=0,rx0=c[0]/sw*W,ry0=c[1]/(stage.clientHeight||1)*H,rx1=rx0+lw2*scale,ry1=ry0+lh2*scale;
+        items.forEach(function(it){it.P.concat([it.pos]).forEach(function(p){
+          if(p.x>rx0-R&&p.x<rx1+R&&p.y>ry0-R&&p.y<ry1+R)cost++;})});
+        if(cost<bs){bs=cost;best=c}
+      });
+      if(bs===0){L.style.left=best[0]+'px';L.style.top=best[1]+'px';placedOver=true}
+      else stage.removeChild(L);
+    }
+    if(!placedOver){wrap.appendChild(legendEl(title,legItems,'below'))}
+  }
+
+  Promise.all([fetchJson(gFile),fetchJson(rFile)]).then(function(res){
+    var geo=res[0],rt=res[1],routeMap={};
+    (rt.routes||[]).forEach(function(r){if(r.route_id!=null)routeMap[r.route_id]=r});
+    if(rt.updated)foot.textContent='데이터 갱신: '+rt.updated;
+    var b=(geo.boulders||[]).filter(function(x){return x.key===key})[0];
+    if(!b){showErr('볼더를 찾을 수 없습니다: '+(key||'(b 파라미터 없음)'));return}
+    document.title=b.name+' 토포';
+    var list=b.photos.map(function(p,i){return{p:p,i:i}});
+    if(pSel>=1&&pSel<=list.length)list=[list[pSel-1]];
+    var wraps=[];
+    list.forEach(function(o){
+      var w=document.createElement('div');w.className='photo';
+      var st=document.createElement('div');st.className='stage';
+      var im=new Image();im.alt=b.name;im.decoding='async';
+      st.appendChild(im);w.appendChild(st);app.appendChild(w);
+      var draw=function(){render(b,o.p,o.i,routeMap,w)};
+      wraps.push(draw);
+      im.onload=draw;
+      im.onerror=function(){st.innerHTML='<div id="err">사진을 불러오지 못했습니다</div>'};
+      im.src=o.p.imageUrl;   // imageUrl만 바꾸면 GitHub Pages 사본으로 전환 가능
+    });
+    var tm;window.addEventListener('resize',function(){clearTimeout(tm);tm=setTimeout(function(){wraps.forEach(function(f){f()})},120)});
+  }).catch(function(e){showErr('데이터를 불러오지 못했습니다: '+e.message)});
+})();
+</script>
+</body>
+</html>
