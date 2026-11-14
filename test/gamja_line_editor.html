@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>감자볼더 라인 편집기</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#191919;color:#e8e8e8;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Segoe UI",sans-serif;font-size:14px}
+  #app{max-width:580px;margin:0 auto;padding:8px 8px 24px}
+  h1{font-size:15px;margin:2px 0 8px}
+  .sel{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+  .sel label{display:flex;align-items:center;gap:8px}
+  .sel label span{flex:none;width:34px;color:#aaa;font-size:12px}
+  select{flex:1;min-width:0;background:#2a2a2a;color:#fff;border:1px solid #444;border-radius:8px;padding:8px;font-size:14px}
+  .stage{position:relative;width:100%;line-height:0;background:#222;border-radius:6px;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+  .stage img{width:100%;height:auto;display:block;pointer-events:none;-webkit-user-drag:none}
+  .stage svg{position:absolute;left:0;top:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+  .hint{font-size:12px;color:#9aa;margin:6px 2px}
+  .btns{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+  button{background:#2f3b52;color:#fff;border:1px solid #475673;border-radius:8px;padding:9px 12px;font-size:14px;min-height:40px}
+  button:disabled{opacity:.4}
+  button.primary{background:#1f7a46;border-color:#2aa062;font-weight:700}
+  #target{background:#222a38;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 10px;line-height:1.5;margin:8px 0}
+  #target b{color:#fff}
+  #target a{color:#8ab4ff}
+  textarea{width:100%;height:96px;background:#111;color:#cfe;border:1px solid #444;border-radius:8px;padding:8px;font-size:12px;font-family:ui-monospace,Menlo,monospace}
+  #msg{min-height:18px;font-size:13px;color:#8be28b;margin:4px 2px}
+  #msg.bad{color:#ff8a80}
+  #err{padding:20px;color:#ff8a80;text-align:center}
+</style>
+</head>
+<body>
+<div id="app">
+  <h1>✏️ 라인 편집기 <span style="font-weight:400;color:#888;font-size:12px">사진을 눌러 점을 찍고, 점을 끌어 옮기세요</span></h1>
+  <div class="sel">
+    <label><span>볼더</span><select id="selB"></select></label>
+    <label><span>사진</span><select id="selP"></select></label>
+    <label><span>루트</span><select id="selR"></select></label>
+  </div>
+  <div class="stage" id="stage"><img id="img" alt=""><svg id="svg"></svg></div>
+  <div class="hint" id="hint"></div>
+  <div class="btns">
+    <button id="bUndo">↩ 되돌리기</button>
+    <button id="bDel">점 삭제</button>
+    <button id="bClear">전체 지우기</button>
+    <button id="bReload">현재 선 불러오기</button>
+  </div>
+  <div id="target"></div>
+  <div class="btns"><button id="bCopy" class="primary">복사</button></div>
+  <div id="msg"></div>
+  <textarea id="out" readonly placeholder="점을 2개 이상 찍으면 라인 문자열이 여기에 만들어집니다"></textarea>
+</div>
+<script>
+(function(){
+  var qs=new URLSearchParams(location.search);
+  var $=function(i){return document.getElementById(i)};
+  var NS='http://www.w3.org/2000/svg';
+  var geo,routes=[],boulders=[];
+  var S={b:null,photo:null,rkey:'',pts:[],sel:-1,hist:[]};   // pts: [{x,y}] 정규화 0~1
+  var NEW='';  // 루트 select 의 '새 루트' 값
+
+  function fetchJson(f){return fetch(f+'?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error(f+' '+r.status);return r.json()})}
+  function gradeColor(v){
+    var m=/^V(B|\d+)$/i.exec((v||'').trim()); if(!m)return '#ffffff';
+    var n=m[1].toUpperCase()==='B'?0:parseInt(m[1],10);
+    if(n<=1)return '#00e5ff'; if(n<=3)return '#76ff03'; if(n===4)return '#ffd600';
+    if(n<=6)return '#ff6d00'; if(n===7)return '#ff1744'; if(n===8)return '#d500f9'; return '#ffab00';
+  }
+  function spline(P){
+    if(P.length<2)return '';
+    var d='M'+P[0].x.toFixed(1)+' '+P[0].y.toFixed(1);
+    for(var i=0;i<P.length-1;i++){
+      var p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2;
+      d+=' C'+(p1.x+(p2.x-p0.x)/6).toFixed(1)+' '+(p1.y+(p2.y-p0.y)/6).toFixed(1)+' '+
+        (p2.x-(p3.x-p1.x)/6).toFixed(1)+' '+(p2.y-(p3.y-p1.y)/6).toFixed(1)+' '+p2.x.toFixed(1)+' '+p2.y.toFixed(1);
+    }
+    return d;
+  }
+  function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+  function pt(p){return Array.isArray(p)?{x:p[0],y:p[1]}:p}
+  function routeByKey(k){return routes.filter(function(r){return r.key===k})[0]}
+  function msg(t,bad){var m=$('msg');m.textContent=t||'';m.className=bad?'bad':''}
+
+  // ---------- 선택 UI
+  function fillBoulders(){
+    var s=$('selB');s.innerHTML='';
+    boulders.forEach(function(b,i){var o=document.createElement('option');o.value=b.key;o.textContent=b.name+' ('+b.photos.length+'장)';s.appendChild(o)});
+    var want=qs.get('b');if(want&&boulders.some(function(b){return b.key===want}))s.value=want;
+    S.b=boulders.filter(function(b){return b.key===s.value})[0];
+  }
+  function fillPhotos(){
+    var s=$('selP');s.innerHTML='';
+    (S.b.photos||[]).forEach(function(p,i){var o=document.createElement('option');o.value=p.photoId;o.textContent='사진 '+(i+1)+'  (#'+p.photoId+')';s.appendChild(o)});
+    var want=parseInt(qs.get('photo')||'',10);
+    if(want&&S.b.photos.some(function(p){return p.photoId===want}))s.value=want;
+    S.photo=S.b.photos.filter(function(p){return String(p.photoId)===s.value})[0]||null;
+  }
+  function fillRoutes(keep){
+    var s=$('selR');s.innerHTML='';
+    var o=document.createElement('option');o.value=NEW;o.textContent='＋ 새 루트 (선택 없음)';s.appendChild(o);
+    routes.filter(function(r){return r.boulder===S.b.name}).sort(function(a,b){return (a.num||0)-(b.num||0)}).forEach(function(r){
+      var has=(r.lines||[]).some(function(l){return S.photo&&l.photoId===S.photo.photoId});
+      var oo=document.createElement('option');oo.value=r.key;
+      oo.textContent=(r.num==null?'-':r.num)+'. '+r.name+'  '+(r.vgrade||'')+(has?'  ✓':'');
+      s.appendChild(oo);
+    });
+    var want=keep!==undefined?keep:qs.get('r');
+    s.value=(want&&routeByKey(want))?want:NEW;
+    S.rkey=s.value;
+  }
+  function loadCurrentLine(){
+    S.pts=[];S.sel=-1;S.hist=[];
+    var r=routeByKey(S.rkey);
+    if(r&&S.photo){
+      (r.lines||[]).forEach(function(l){if(l.photoId===S.photo.photoId)S.pts=l.points.map(function(p){p=pt(p);return{x:p.x,y:p.y}})});
+    }
+  }
+
+  // ---------- 그리기
+  function stageSize(){var st=$('stage');return{w:st.clientWidth||1,h:st.clientHeight||1}}
+  function draw(){
+    var svg=$('svg'),z=stageSize();
+    svg.setAttribute('viewBox','0 0 '+z.w+' '+z.h);
+    while(svg.firstChild)svg.removeChild(svg.firstChild);
+    var cur=routeByKey(S.rkey);
+    // 다른 루트 선(참고용, 흐리게)
+    routes.forEach(function(r){
+      if(r===cur)return;
+      (r.lines||[]).forEach(function(l){
+        if(!S.photo||l.photoId!==S.photo.photoId)return;
+        var P=l.points.map(function(p){p=pt(p);return{x:p.x*z.w,y:p.y*z.h}});
+        el('path',{d:spline(P),fill:'none',stroke:gradeColor(r.vgrade),'stroke-width':2,'stroke-opacity':.4,'stroke-linecap':'round'},svg);
+        var t=el('text',{x:P[0].x,y:P[0].y,'text-anchor':'middle','dominant-baseline':'central','font-size':9,fill:'#fff','fill-opacity':.7,'font-weight':700},svg);
+        t.textContent=r.num==null?'':r.num;
+      });
+    });
+    var color=cur?gradeColor(cur.vgrade):'#ffffff';
+    var P=S.pts.map(function(p){return{x:p.x*z.w,y:p.y*z.h}});
+    if(P.length>=2){
+      el('path',{d:spline(P),fill:'none',stroke:'rgba(0,0,0,.65)','stroke-width':7,'stroke-linecap':'round','stroke-linejoin':'round'},svg);
+      el('path',{d:spline(P),fill:'none',stroke:color,'stroke-width':4,'stroke-linecap':'round','stroke-linejoin':'round'},svg);
+    }
+    P.forEach(function(p,i){
+      var sel=i===S.sel,isStart=i===0;
+      el('circle',{cx:p.x,cy:p.y,r:sel?11:(isStart?10:8),fill:isStart?'#2ecc71':color,'fill-opacity':.9,stroke:sel?'#ffeb3b':'#fff','stroke-width':sel?3:2},svg);
+      var t=el('text',{x:p.x,y:p.y,'text-anchor':'middle','dominant-baseline':'central','font-size':9,'font-weight':700,fill:'#000','pointer-events':'none'},svg);
+      t.textContent=i+1;
+    });
+    $('hint').textContent='점 '+S.pts.length+'개 · 1번(초록)=시작점, 마지막 점=탑'+(S.sel>=0?' · '+(S.sel+1)+'번 점 선택됨':'');
+    updateOutput();
+  }
+
+  // ---------- 출력 문자열
+  function fmt(pts){return pts.map(function(p){return p.x.toFixed(4)+','+p.y.toFixed(4)}).join(';')}
+  function buildString(){
+    if(!S.photo||S.pts.length<2)return '';
+    var segs=[],done=false,r=routeByKey(S.rkey);
+    if(r)(r.lines||[]).forEach(function(l){
+      if(l.photoId===S.photo.photoId){segs.push(S.photo.photoId+':'+fmt(S.pts));done=true}
+      else segs.push(l.photoId+':'+fmt(l.points.map(pt)));
+    });
+    if(!done)segs.push(S.photo.photoId+':'+fmt(S.pts));
+    return segs.join(' | ');
+  }
+  function updateOutput(){
+    var s=buildString(),r=routeByKey(S.rkey);
+    $('out').value=s;$('bCopy').disabled=!s;
+    var t=$('target');
+    if(r){
+      t.innerHTML='붙여넣을 곳: 노션 DB의 <b></b> 행 → <b>라인</b> 칸 <a target="_blank" rel="noopener">노션 행 열기 ↗</a>';
+      t.querySelector('b').textContent=(r.num==null?'':r.num+'. ')+r.name;
+      t.querySelector('a').href='https://www.notion.so/'+r.key.replace(/-/g,'');
+    }else{
+      t.innerHTML='<b>새 루트</b>: 노션 DB에 새 행을 만들고(번호·루트명·V 그레이드·볼더 입력) <b>라인</b> 칸에 붙여넣으세요. 사진 #'+(S.photo?S.photo.photoId:'-');
+    }
+    $('bUndo').disabled=!S.hist.length;$('bDel').disabled=S.sel<0;
+  }
+
+  function snap(){S.hist.push(JSON.stringify(S.pts));if(S.hist.length>100)S.hist.shift()}
+  function undo(){if(!S.hist.length)return;S.pts=JSON.parse(S.hist.pop());S.sel=-1;draw()}
+
+  // ---------- 포인터 입력 (마우스/터치 공통)
+  var drag=null;
+  function localPos(ev){
+    var r=$('stage').getBoundingClientRect();
+    return{px:ev.clientX-r.left,py:ev.clientY-r.top,w:r.width,h:r.height};
+  }
+  function hit(px,py,w,h){
+    var best=-1,bd=1e9,R=S.pts.length?(ev_touch?22:16):16;
+    S.pts.forEach(function(p,i){var d=Math.hypot(p.x*w-px,p.y*h-py);if(d<R&&d<bd){bd=d;best=i}});
+    return best;
+  }
+  var ev_touch=false;
+  function onDown(ev){
+    if(ev.button!==undefined&&ev.button>0)return;
+    ev.preventDefault();
+    ev_touch=ev.pointerType==='touch';
+    try{$('svg').setPointerCapture(ev.pointerId)}catch(e){}
+    var l=localPos(ev),i=hit(l.px,l.py,l.w,l.h);
+    drag={id:ev.pointerId,idx:i,sx:l.px,sy:l.py,moved:false,snapped:false};
+    if(i>=0){S.sel=i;draw()}
+  }
+  function onMove(ev){
+    if(!drag||ev.pointerId!==drag.id)return;
+    ev.preventDefault();
+    var l=localPos(ev);
+    if(!drag.moved&&Math.hypot(l.px-drag.sx,l.py-drag.sy)>6)drag.moved=true;
+    if(drag.idx>=0&&drag.moved){
+      if(!drag.snapped){snap();drag.snapped=true}
+      S.pts[drag.idx]={x:Math.max(0,Math.min(1,l.px/l.w)),y:Math.max(0,Math.min(1,l.py/l.h))};
+      draw();
+    }
+  }
+  function onUp(ev){
+    if(!drag||ev.pointerId!==drag.id)return;
+    ev.preventDefault();
+    var l=localPos(ev);
+    if(drag.idx<0&&!drag.moved&&l.px>=0&&l.py>=0&&l.px<=l.w&&l.py<=l.h){
+      snap();S.pts.push({x:+(l.px/l.w).toFixed(4),y:+(l.py/l.h).toFixed(4)});S.sel=S.pts.length-1;
+    }
+    drag=null;draw();
+  }
+  function onCancel(){drag=null}
+
+  // ---------- 복사
+  function copyText(){
+    var s=$('out').value;if(!s)return;
+    var done=function(ok){
+      var r=routeByKey(S.rkey);
+      if(ok)msg('복사됨 → '+(r?'노션의 「'+r.name+'」 행 라인 칸에 붙여넣으세요':'새 행의 라인 칸에 붙여넣으세요'));
+      else{$('out').focus();$('out').select();msg('자동 복사 실패: 아래 칸을 길게 눌러 직접 복사하세요',true)}
+    };
+    var fallback=function(){var ok=false;try{$('out').focus();$('out').select();$('out').setSelectionRange(0,s.length);ok=document.execCommand('copy')}catch(e){}done(ok)};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(s).then(function(){done(true)},fallback)}
+    else fallback();
+  }
+
+  // ---------- 이벤트
+  function reloadAll(keepRoute){
+    fillPhotos();fillRoutes(keepRoute);loadCurrentLine();msg('');
+    $('img').src=S.photo?S.photo.imageUrl:'';draw();
+  }
+  function init(){
+    fillBoulders();
+    $('selB').onchange=function(){S.b=boulders.filter(function(b){return b.key===$('selB').value})[0];reloadAll(NEW)};
+    $('selP').onchange=function(){S.photo=S.b.photos.filter(function(p){return String(p.photoId)===$('selP').value})[0];var k=$('selR').value;fillRoutes(k);loadCurrentLine();$('img').src=S.photo.imageUrl;draw();msg('')};
+    $('selR').onchange=function(){S.rkey=$('selR').value;loadCurrentLine();msg('');draw()};
+    $('bUndo').onclick=undo;
+    $('bDel').onclick=function(){if(S.sel<0)return;snap();S.pts.splice(S.sel,1);S.sel=-1;draw()};
+    $('bClear').onclick=function(){if(!S.pts.length)return;snap();S.pts=[];S.sel=-1;draw()};
+    $('bReload').onclick=function(){snap();var h=S.hist;loadCurrentLine();S.hist=h;draw();msg('저장된 선을 다시 불러왔어요')};
+    $('bCopy').onclick=copyText;
+    $('out').onclick=function(){this.select()};
+    var sv=$('svg');
+    sv.addEventListener('pointerdown',onDown);sv.addEventListener('pointermove',onMove);
+    sv.addEventListener('pointerup',onUp);sv.addEventListener('pointercancel',onCancel);
+    sv.addEventListener('contextmenu',function(e){e.preventDefault()});
+    $('img').onload=draw;
+    window.addEventListener('resize',draw);
+    reloadAll(qs.get('r'));
+  }
+
+  Promise.all([fetchJson('gamja_topo_geometry.json'),fetchJson('gamja_routes.json')]).then(function(res){
+    geo=res[0];routes=res[1].routes||[];
+    boulders=(geo.boulders||[]).filter(function(b){return b.photos&&b.photos.length});
+    if(!boulders.length){document.getElementById('app').innerHTML='<div id="err">사진이 있는 볼더가 없습니다</div>';return}
+    init();
+  }).catch(function(e){document.getElementById('app').innerHTML='<div id="err">데이터를 불러오지 못했습니다: '+e.message+'</div>'});
+})();
+</script>
+</body>
+</html>
