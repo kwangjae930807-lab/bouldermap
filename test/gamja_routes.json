@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-14T12:01:29+09:00",
+ "updated": "2026-11-14T12:02:25+09:00",
  "source": "notion",
  "routes": [
   {
@@ -128,7 +128,7 @@
    "grade": "7A",
    "fa": "",
    "boulder": "감자볼더(4)",
-   "thetopo_url": "",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/armstrong-240059",
    "lines": [
     {
      "photoId": 58736,
