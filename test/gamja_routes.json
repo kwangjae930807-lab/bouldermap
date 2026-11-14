@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-14T11:38:13+09:00",
+ "updated": "2026-11-14T11:39:18+09:00",
  "source": "notion",
  "routes": [
   {
@@ -77,12 +77,24 @@
   {
    "route_id": 240683,
    "num": 20,
-   "name": "Frightening guy(무서운 놈) [동기화테스트]",
+   "name": "Frightening guy(무서운 놈)",
    "grade": "6C",
    "vgrade": "V5",
    "fa": "",
    "boulder": "감자볼더(4)",
    "thetopo_url": "https://thetopo.com/crags/15957/routes/frightening-guy",
+   "alt_urls": [],
+   "has_line": true
+  },
+  {
+   "route_id": 240066,
+   "num": 21,
+   "name": "Baby Step",
+   "grade": "5+",
+   "vgrade": "V2",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/baby-step",
    "alt_urls": [],
    "has_line": true
   },
@@ -181,18 +193,6 @@
    "fa": "Hoseok Lee (2019-06-05)",
    "boulder": "누워뜨는소",
    "thetopo_url": "https://thetopo.com/crags/15957/routes/know-when-to-fold",
-   "alt_urls": [],
-   "has_line": true
-  },
-  {
-   "route_id": 240066,
-   "num": 41,
-   "name": "Baby Step",
-   "grade": "5+",
-   "vgrade": "V2",
-   "fa": "",
-   "boulder": "감자볼더(4)",
-   "thetopo_url": "https://thetopo.com/crags/15957/routes/baby-step",
    "alt_urls": [],
    "has_line": true
   }
