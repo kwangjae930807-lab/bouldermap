@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-14T12:02:25+09:00",
+ "updated": "2026-11-14T18:53:29+09:00",
  "source": "notion",
  "routes": [
   {
    "key": "63a0dca7-f37c-42de-846f-baf302ebcec0",
    "route_id": 239698,
    "num": 14,
-   "name": "데드풀",
+   "name": "Deadpool",
    "vgrade": "V8",
    "grade": "7B",
    "fa": "",
