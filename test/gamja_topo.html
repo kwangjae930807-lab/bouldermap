@@ -137,7 +137,19 @@
     });
   }
 
-  function render(boulder,photo,idx,routeMap,wrap){
+  function pt(p){return Array.isArray(p)?{x:p[0],y:p[1]}:p}
+  // 선은 routes.json 의 루트(key=노션 행 ID).lines[{photoId,points}] 에서 가져온다.
+  // (구형: photo.lines[{route_id,points}] + route_id 조인은 호환용으로만 유지)
+  function collectLines(photo,routes,routeMap){
+    var out=[];
+    routes.forEach(function(r){(r.lines||[]).forEach(function(ln){
+      if(ln.photoId===photo.photoId)out.push({r:r,points:ln.points,id:r.key||r.route_id});
+    })});
+    (photo.lines||[]).forEach(function(ln){out.push({r:routeMap[ln.route_id],points:ln.points,id:ln.route_id})});
+    return out;
+  }
+
+  function render(boulder,photo,idx,routes,routeMap,wrap){
     var img=wrap.querySelector('img'),stage=wrap.querySelector('.stage');
     var W=img.naturalWidth||1120,H=img.naturalHeight||630;
     var old=stage.querySelector('svg');if(old)stage.removeChild(old);
@@ -146,13 +158,13 @@
     var R=12*scale, lw=4*scale, ow=6.5*scale;
     var svg=el('svg',{viewBox:'0 0 '+W+' '+H,preserveAspectRatio:'xMidYMid meet'},stage);
     var items=[];
-    photo.lines.forEach(function(ln){
-      var r=routeMap[ln.route_id], miss=!r;
+    collectLines(photo,routes,routeMap).forEach(function(ln){
+      var r=ln.r, miss=!r;
       var color=miss?'#9e9e9e':gradeColor(r.vgrade);
-      var P=(ln.points||[]).map(function(p){return{x:p.x*W,y:p.y*H}});
+      var P=(ln.points||[]).map(function(p){p=pt(p);return{x:p.x*W,y:p.y*H}});
       if(!P.length)return;
       items.push({line:ln,P:P,start:P[0],end:P[P.length-1],color:color,
-        label:miss?'?':String(r.num),name:miss?'(정보 없음) #'+ln.route_id:r.name,v:miss?'-':(r.vgrade||'-'),
+        label:miss?'?':String(r.num==null?'':r.num),name:miss?'(정보 없음) #'+ln.id:r.name,v:miss?'-':(r.vgrade||'-'),
         order:miss?9999:r.num});
     });
     items.forEach(function(it){
@@ -203,8 +215,13 @@
 
   Promise.all([fetchJson(gFile),fetchJson(rFile)]).then(function(res){
     var geo=res[0],rt=res[1],routeMap={};
-    (rt.routes||[]).forEach(function(r){if(r.route_id!=null)routeMap[r.route_id]=r});
+    var routes=rt.routes||[];
+    routes.forEach(function(r){if(r.route_id!=null)routeMap[r.route_id]=r});
     if(rt.updated)foot.textContent='데이터 갱신: '+rt.updated;
+    if(qs.get('edit')==='1'){
+      var ea=document.createElement('a');ea.href='gamja_line_editor.html?b='+encodeURIComponent(key||'');ea.target='_blank';ea.rel='noopener';
+      ea.textContent='✏️ 라인 편집';ea.style.cssText='color:#8ab4ff;margin-left:10px;text-decoration:none';foot.appendChild(ea);
+    }
     var b=(geo.boulders||[]).filter(function(x){return x.key===key})[0];
     if(!b){showErr('볼더를 찾을 수 없습니다: '+(key||'(b 파라미터 없음)'));return}
     document.title=b.name+' 토포';
@@ -216,7 +233,7 @@
       var st=document.createElement('div');st.className='stage';
       var im=new Image();im.alt=b.name;im.decoding='async';
       st.appendChild(im);w.appendChild(st);app.appendChild(w);
-      var draw=function(){render(b,o.p,o.i,routeMap,w)};
+      var draw=function(){render(b,o.p,o.i,routes,routeMap,w)};
       wraps.push(draw);
       im.onload=draw;
       im.onerror=function(){st.innerHTML='<div id="err">사진을 불러오지 못했습니다</div>'};
