@@ -94,10 +94,22 @@
       function crowd(i){return items.filter(function(o){return o!==i&&Math.hypot(o.start.x-i.start.x,o.start.y-i.start.y)<R*3.5}).length}
       return crowd(b)-crowd(a);
     });
+    var samples=[];
+    items.forEach(function(it){
+      for(var i=0;i<it.P.length-1;i++){
+        var a=it.P[i],b=it.P[i+1],n=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/(R*0.6)));
+        for(var k=0;k<n;k++)samples.push({x:a.x+(b.x-a.x)*k/n,y:a.y+(b.y-a.y)*k/n});
+      }
+      samples.push(it.P[it.P.length-1]);
+    });
     function clamp(p){return{x:Math.max(R+2,Math.min(W-R-2,p.x)),y:Math.max(R+2,Math.min(H-R-2,p.y))}}
     order.forEach(function(it){
       var s=it.start,best=null,bc=1e18;
       var cands=[{x:s.x,y:s.y}];
+      // 1순위 후보: 시작점에서 선이 뻗는 반대 방향(보통 아래쪽)으로 살짝 띄운 위치
+      var q=it.P[Math.min(it.P.length-1,2)], dx=s.x-q.x, dy=s.y-q.y, dl=Math.hypot(dx,dy)||1;
+      if(dl<1){dx=0;dy=1;dl=1}
+      [1.5,2.0,2.6].forEach(function(m){cands.push({x:s.x+dx/dl*R*m,y:s.y+dy/dl*R*m})});
       for(var ring=1;ring<=6;ring++){
         for(var k=0;k<16;k++){
           var a=-Math.PI/2+k*Math.PI/8;
@@ -114,7 +126,10 @@
           if(d<R*1.5)cost+=R*6;           // 남의 시작점 위에 얹지 않기
           else if(d<R*2.2)cost+=R*1.5;
         });
-        cost+=(c0.y<s.y?0:R*0.15);          // 위쪽 후보 약간 선호(바위 아래 땅/사진 가장자리 회피)
+        // 선 위에 얹히면 감점 (모든 루트 선의 샘플 점과의 거리)
+        var onLine=0;
+        samples.forEach(function(p){if(Math.hypot(p.x-c.x,p.y-c.y)<R*0.95)onLine++});
+        cost+=Math.min(onLine,8)*R*0.7;
         if(cost<bc){bc=cost;best=c}
       });
       if(!best)best=clamp(s);
