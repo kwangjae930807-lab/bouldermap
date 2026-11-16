@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T21:17:23+09:00",
+ "updated": "2026-11-16T22:06:29+09:00",
  "source": "notion",
  "routes": [
   {
@@ -29,7 +29,7 @@
    "key": "539e094d-210b-4498-9d69-704b185222bd",
    "route_id": 239697,
    "num": 15,
-   "name": "One Shot One Kill [자동동기화]",
+   "name": "One Shot One Kill",
    "vgrade": "V4",
    "grade": "6B+",
    "fa": "",
