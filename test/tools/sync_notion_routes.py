@@ -115,6 +115,24 @@ def rows_from_api_results(results):
     return rows
 
 
+def _diagnose(token):
+    """404 시 통합이 볼 수 있는 객체(id/종류/제목)를 로그에 출력 (토큰 미출력)"""
+    try:
+        req = urllib.request.Request('https://api.notion.com/v1/search', method='POST',
+                                     data=json.dumps({'page_size': 50}).encode(),
+                                     headers={'Authorization': 'Bearer ' + token, 'Notion-Version': '2022-06-28',
+                                              'Content-Type': 'application/json'})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            d = json.load(r)
+        print('DIAG accessible objects: %d' % len(d.get('results', [])))
+        for o in d.get('results', []):
+            t = o.get('title') or (o.get('properties', {}).get('title', {}) or {}).get('title') or []
+            print('DIAG', o.get('object'), o.get('id'), ''.join(x.get('plain_text', '') for x in t)[:60],
+                  'parent=%s' % json.dumps(o.get('parent'))[:120])
+    except Exception as e:
+        print('DIAG failed', repr(e)[:200])
+
+
 def read_rows_api(database_id, token):
     """공식 Notion API (Notion-Version 2022-06-28), 페이지네이션 포함. 토큰은 출력하지 않는다."""
     results, cursor = [], None
@@ -130,6 +148,8 @@ def read_rows_api(database_id, token):
             with urllib.request.urlopen(req, timeout=60) as r:
                 d = json.load(r)
         except urllib.error.HTTPError as e:
+            if e.code == 404:
+                _diagnose(token)
             raise RuntimeError('notion api http %s %s' % (e.code, e.read().decode('utf-8', 'replace')[:300]))
         results += d.get('results', [])
         if not d.get('has_more'):
