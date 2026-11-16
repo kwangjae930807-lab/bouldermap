@@ -5,7 +5,8 @@ name: gamja-sync
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    # 정각·15분 단위는 GitHub 혼잡으로 누락이 잦아 7분 어긋나게 설정
+    - cron: '7,22,37,52 * * * *'
   workflow_dispatch:
     inputs:
       force:
