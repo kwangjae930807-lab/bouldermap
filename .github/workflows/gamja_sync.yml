@@ -1,6 +1,7 @@
-# 감자볼더 토포 자동 동기화 (테스트판) -- 노션 DB -> test/gamja_routes.json
-# secret NOTION_TOKEN (읽기 전용 내부 통합 토큰). 통합은 테스트 DB 페이지에 연결되어 있어야 함.
-# 안전장치: 행 0개 또는 루트 30% 초과 감소 시 스크립트가 exit 2 로 중단 -> 커밋 없음
+# 토포 자동 동기화 (테스트판, 다암장) -- 노션 DB -> test/<암장>_routes.json
+# 암장 목록: test/tools/crags.json (감자볼더 gamja + 현충 바위 memorial). 암장마다 안전장치가 독립이라
+# 한 암장이 실패/중단돼도 다른 암장은 계속 처리된다 (전체 결과는 하나라도 실패하면 실패 표시).
+# secret NOTION_TOKEN (읽기 전용 내부 통합 토큰). 통합은 각 테스트 DB 페이지에 연결되어 있어야 함.
 name: gamja-sync
 
 on:
@@ -21,9 +22,6 @@ concurrency:
   group: gamja-sync
   cancel-in-progress: false
 
-env:
-  NOTION_DATABASE_ID: 99ad5ebc-111e-439b-aa3d-d1318e1930f3
-
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -31,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Sync from Notion (official API)
+      - name: Sync from Notion (official API, all crags)
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           FORCE: ${{ inputs.force }}
@@ -39,23 +37,23 @@ jobs:
           ARGS=""
           if [ "$FORCE" = "true" ]; then ARGS="--force"; fi
           python3 test/tools/sync_notion_routes.py --source api \
-            --routes-file test/gamja_routes.json \
-            --geometry-file test/gamja_topo_geometry.json \
-            --log-file /tmp/gamja_sync_log.jsonl $ARGS
+            --config test/tools/crags.json \
+            --log-file /tmp/topo_sync_log.jsonl $ARGS
 
-      - name: Commit routes.json only if changed
+      - name: Commit routes.json files only if changed
+        if: always()
         run: |
-          if git diff --quiet -- test/gamja_routes.json; then
+          if git diff --quiet -- test/gamja_routes.json test/memorial_routes.json; then
             echo "no changes"
           else
             git config user.name  "gamja-sync[bot]"
             git config user.email "gamja-sync@users.noreply.github.com"
-            git add test/gamja_routes.json
-            git commit -m "test: sync gamja routes from notion (actions)"
+            git add test/gamja_routes.json test/memorial_routes.json
+            git commit -m "test: sync topo routes from notion (actions)"
             git pull --rebase
             git push
           fi
 
       - name: Show change log
         if: always()
-        run: cat /tmp/gamja_sync_log.jsonl || true
+        run: cat /tmp/topo_sync_log.jsonl || true
