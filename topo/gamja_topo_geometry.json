@@ -1,0 +1,140 @@
+{
+ "crag": "감자볼더",
+ "boulders": [
+  {
+   "key": "gamja-1",
+   "name": "감자볼더(1)",
+   "order": 1,
+   "lat": 37.418576,
+   "lng": 126.925587,
+   "photos": [
+    {
+     "photoId": 101834,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/191/191828/p1120q40-d11481afde5f2e39269dd9e6759851c8.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "gamja-2",
+   "name": "감자볼더(2)",
+   "order": 2,
+   "lat": 37.418576,
+   "lng": 126.925587,
+   "photos": [
+    {
+     "photoId": 58734,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/130/130647/p1120q40-c632b697af4be55cfad1b2a44a10815a.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "gamja-3",
+   "name": "감자볼더(3)",
+   "order": 3,
+   "lat": 37.418576,
+   "lng": 126.925587,
+   "photos": [
+    {
+     "photoId": 58735,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/130/130648/p1120q40-e247db4f870830c350b88273a5a2f380.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "gamja-4",
+   "name": "감자볼더(4)",
+   "order": 4,
+   "lat": 37.418576,
+   "lng": 126.925587,
+   "photos": [
+    {
+     "photoId": 58736,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/130/130649/p1120q40-62f5fbf4215858bae40ed4695526a9da.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "gamja-5",
+   "name": "감자볼더(5)",
+   "order": 5,
+   "lat": 37.418576,
+   "lng": 126.925587,
+   "photos": [
+    {
+     "photoId": 58803,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/130/130779/p1120q40-5b416c15f7cc81d476415b788656f797.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "gamja-etc",
+   "name": "감자볼더(기타)",
+   "order": 6,
+   "lat": 37.418576,
+   "lng": 126.925587,
+   "photos": []
+  },
+  {
+   "key": "nuwotteuneunso",
+   "name": "누워뜨는소",
+   "order": 7,
+   "lat": null,
+   "lng": null,
+   "photos": [
+    {
+     "photoId": 86096,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/168/168784/p1120q40-273d10b9ced31ff9778877b9b78dee2f.jpg",
+     "order": 1
+    },
+    {
+     "photoId": 86097,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/168/168785/p1120q40-46f6f2dba61941aa4691445eca018d49.jpg",
+     "order": 2
+    },
+    {
+     "photoId": 86098,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/168/168786/p1120q40-f5de9b4d967eb4249b8050682b41dd0e.jpg",
+     "order": 3
+    }
+   ]
+  },
+  {
+   "key": "fossil-snake",
+   "name": "Fossil Snake",
+   "order": 8,
+   "lat": 37.416459,
+   "lng": 126.925341,
+   "photos": [
+    {
+     "photoId": 62153,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/135/135430/p1120q40-29802168004a8914d7728a56b2eb3676.jpg",
+     "order": 1
+    },
+    {
+     "photoId": 62256,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/135/135574/p1120q40-91710ba5d0b120462fc805ee83fa15f6.jpg",
+     "order": 2
+    }
+   ]
+  },
+  {
+   "key": "rhino",
+   "name": "Rhino",
+   "order": 9,
+   "lat": 37.415816,
+   "lng": 126.92509,
+   "photos": [
+    {
+     "photoId": 62152,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/135/135429/p1120q40-801d0f6e7214e477f9e662d020bfa352.jpg",
+     "order": 1
+    }
+   ]
+  }
+ ]
+}
