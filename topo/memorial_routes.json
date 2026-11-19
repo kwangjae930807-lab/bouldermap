@@ -1,0 +1,791 @@
+{
+ "updated": "2026-11-19T00:00:00+09:00",
+ "source": "notion",
+ "routes": [
+  {
+   "key": "53bf75b6-124f-4bda-9602-891dbd93ae9b",
+   "route_id": 580462,
+   "num": 1,
+   "name": "찐진이(TrueJin)",
+   "vgrade": "V5",
+   "grade": "6C+",
+   "fa": "-",
+   "boulder": "현충 바위(1)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/truejin",
+   "lines": [
+    {
+     "photoId": 223542,
+     "points": [
+      [
+       0.1298,
+       0.6429
+      ],
+      [
+       0.3123,
+       0.6797
+      ],
+      [
+       0.2649,
+       0.5218
+      ],
+      [
+       0.2579,
+       0.3784
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "c9bfc8d9-1322-43fc-8d5a-b87dff30e841",
+   "route_id": 580461,
+   "num": 2,
+   "name": "현충 힐(Memorial Heel)",
+   "vgrade": "V5",
+   "grade": "6C+",
+   "fa": "-",
+   "boulder": "현충 바위(1)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/memorial-heel",
+   "lines": [
+    {
+     "photoId": 223542,
+     "points": [
+      [
+       0.5035,
+       0.6218
+      ],
+      [
+       0.386,
+       0.5376
+      ],
+      [
+       0.4474,
+       0.5153
+      ],
+      [
+       0.4439,
+       0.4363
+      ],
+      [
+       0.3526,
+       0.3758
+      ],
+      [
+       0.3228,
+       0.3613
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "e9efadf6-2e62-4cea-bb5b-236a8e421b15",
+   "route_id": 580459,
+   "num": 3,
+   "name": "현충 언더(Memorial Under)",
+   "vgrade": "V8",
+   "grade": "7B+",
+   "fa": "-",
+   "boulder": "현충 바위(1)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/memorial-under",
+   "lines": [
+    {
+     "photoId": 223542,
+     "points": [
+      [
+       0.5561,
+       0.5929
+      ],
+      [
+       0.8754,
+       0.3876
+      ],
+      [
+       0.8439,
+       0.3271
+      ],
+      [
+       0.7702,
+       0.2389
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "8faccad4-52a6-46f1-8f05-50c8a89d7c56",
+   "route_id": 580460,
+   "num": 4,
+   "name": "현충 탑(Memorial Top)",
+   "vgrade": "V7",
+   "grade": "7A+",
+   "fa": "-",
+   "boulder": "현충 바위(1)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/memorial-top",
+   "lines": [
+    {
+     "photoId": 223542,
+     "points": [
+      [
+       0.5561,
+       0.6021
+      ],
+      [
+       0.5684,
+       0.4705
+      ],
+      [
+       0.5702,
+       0.3482
+      ],
+      [
+       0.5561,
+       0.2534
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "7645d4c3-c771-4522-98d3-1fe5fc364c55",
+   "route_id": 581811,
+   "num": 5,
+   "name": "검단산(Black Sugar Mountain)",
+   "vgrade": "V8",
+   "grade": "7B+",
+   "fa": "-",
+   "boulder": "현충 바위(1)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/black-sugar-mountain",
+   "lines": [
+    {
+     "photoId": 223542,
+     "points": [
+      [
+       0.8154,
+       0.6181
+      ],
+      [
+       0.7288,
+       0.5748
+      ],
+      [
+       0.8231,
+       0.4748
+      ],
+      [
+       0.8613,
+       0.3895
+      ],
+      [
+       0.8061,
+       0.2991
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "411ec9ec-22d8-4a70-84dc-eeffd0272da6",
+   "route_id": 580463,
+   "num": 6,
+   "name": "태권V",
+   "vgrade": "V4",
+   "grade": "6B+",
+   "fa": "-",
+   "boulder": "현충 바위(2)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/v-580463",
+   "lines": [
+    {
+     "photoId": 223544,
+     "points": [
+      [
+       0.2118,
+       0.6554
+      ],
+      [
+       0.1498,
+       0.565
+      ],
+      [
+       0.1803,
+       0.5057
+      ],
+      [
+       0.1277,
+       0.3994
+      ],
+      [
+       0.1421,
+       0.3281
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "d813e2e4-841d-41fb-a5db-2168f58b1787",
+   "route_id": 580464,
+   "num": 7,
+   "name": "Bug's Life",
+   "vgrade": "V0",
+   "grade": "5",
+   "fa": "-",
+   "boulder": "현충 바위(2)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/bug-s-life-580464",
+   "lines": [
+    {
+     "photoId": 223544,
+     "points": [
+      [
+       0.3289,
+       0.6509
+      ],
+      [
+       0.3026,
+       0.528
+      ],
+      [
+       0.3535,
+       0.4694
+      ],
+      [
+       0.3561,
+       0.379
+      ],
+      [
+       0.3484,
+       0.3007
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "698ef57c-d34e-49d9-a560-302821039fd0",
+   "route_id": 580465,
+   "num": 8,
+   "name": "바위의 정석 left(FM of Rock left)",
+   "vgrade": "V1",
+   "grade": "5+",
+   "fa": "-",
+   "boulder": "현충 바위(2)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/left-fm-of-rock-left",
+   "lines": [
+    {
+     "photoId": 223544,
+     "points": [
+      [
+       0.6211,
+       0.6284
+      ],
+      [
+       0.5175,
+       0.5574
+      ],
+      [
+       0.4281,
+       0.5416
+      ],
+      [
+       0.3544,
+       0.4245
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "1108185a-9731-4098-a8b0-64e8a1d01130",
+   "route_id": 580466,
+   "num": 9,
+   "name": "커브의 정석(FM of Curve)",
+   "vgrade": "V6",
+   "grade": "7A",
+   "fa": "-",
+   "boulder": "현충 바위(2)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/fm-of-curve",
+   "lines": [
+    {
+     "photoId": 223544,
+     "points": [
+      [
+       0.6211,
+       0.6324
+      ],
+      [
+       0.586,
+       0.5758
+      ],
+      [
+       0.6982,
+       0.5271
+      ],
+      [
+       0.8246,
+       0.4139
+      ],
+      [
+       0.7035,
+       0.3547
+      ],
+      [
+       0.6614,
+       0.2482
+      ],
+      [
+       0.6877,
+       0.1639
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "2c70930b-f9ac-4c44-87e7-bf611527e6c4",
+   "route_id": 580467,
+   "num": 10,
+   "name": "바위의 정석 right(FM of Rock right)",
+   "vgrade": "V5",
+   "grade": "6C+",
+   "fa": "-",
+   "boulder": "현충 바위(2)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/right-fm-of-rock-right",
+   "lines": [
+    {
+     "photoId": 223544,
+     "points": [
+      [
+       0.6211,
+       0.6442
+      ],
+      [
+       0.5737,
+       0.5705
+      ],
+      [
+       0.8,
+       0.4587
+      ],
+      [
+       0.8474,
+       0.3837
+      ],
+      [
+       0.8719,
+       0.2205
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "91e790b2-9c88-45c2-9572-36bd36b2c037",
+   "route_id": 580468,
+   "num": 11,
+   "name": "배달의 정석(FM of Delivery)",
+   "vgrade": "V4",
+   "grade": "6B+",
+   "fa": "-",
+   "boulder": "현충 바위(2)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/fm-of-delivery",
+   "lines": [
+    {
+     "photoId": 223544,
+     "points": [
+      [
+       0.7684,
+       0.585
+      ],
+      [
+       0.8614,
+       0.5403
+      ],
+      [
+       0.8649,
+       0.4087
+      ],
+      [
+       0.8719,
+       0.2811
+      ],
+      [
+       0.8772,
+       0.2284
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "3297bd75-2e95-4f1c-a900-ee74a141cade",
+   "route_id": 580469,
+   "num": 12,
+   "name": "삼메다",
+   "vgrade": "V3",
+   "grade": "6A+",
+   "fa": "-",
+   "boulder": "현충 바위(3)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/580469",
+   "lines": [
+    {
+     "photoId": 223545,
+     "points": [
+      [
+       0.4246,
+       0.6179
+      ],
+      [
+       0.3509,
+       0.4113
+      ],
+      [
+       0.2544,
+       0.3547
+      ],
+      [
+       0.1561,
+       0.2126
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "e319d0e1-de2c-41a1-ad46-b896ecdf294a",
+   "route_id": 580470,
+   "num": 13,
+   "name": "현충 크랙(Memorial Crack)",
+   "vgrade": "V8",
+   "grade": "7B+",
+   "fa": "-",
+   "boulder": "현충 바위(3)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/memorial-crack",
+   "lines": [
+    {
+     "photoId": 223545,
+     "points": [
+      [
+       0.607,
+       0.61
+      ],
+      [
+       0.7263,
+       0.5587
+      ],
+      [
+       0.7965,
+       0.4639
+      ],
+      [
+       0.7596,
+       0.3508
+      ],
+      [
+       0.7719,
+       0.2626
+      ]
+     ]
+    },
+    {
+     "photoId": 223546,
+     "points": [
+      [
+       0.3368,
+       0.5824
+      ],
+      [
+       0.4175,
+       0.5284
+      ],
+      [
+       0.5018,
+       0.5192
+      ],
+      [
+       0.5474,
+       0.4284
+      ],
+      [
+       0.486,
+       0.3403
+      ],
+      [
+       0.5123,
+       0.2613
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "de8dd3e2-a4ce-4beb-8f1c-2dc17cd56516",
+   "route_id": 580475,
+   "num": 14,
+   "name": "⚫️🔴",
+   "vgrade": "V5",
+   "grade": "6C+",
+   "fa": "-",
+   "boulder": "현충 바위(3)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/580475",
+   "lines": [
+    {
+     "photoId": 223545,
+     "points": [
+      [
+       0.607,
+       0.6232
+      ],
+      [
+       0.5491,
+       0.5179
+      ],
+      [
+       0.6053,
+       0.4521
+      ],
+      [
+       0.7456,
+       0.3508
+      ],
+      [
+       0.7632,
+       0.2547
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "efc0bb8b-67c9-44e7-89ba-349ad6b786e9",
+   "route_id": 582275,
+   "num": 15,
+   "name": "Green Mamba",
+   "vgrade": "V8",
+   "grade": "7B+",
+   "fa": "-",
+   "boulder": "현충 바위(4)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/green-mamba-582275",
+   "lines": [
+    {
+     "photoId": 223546,
+     "points": [
+      [
+       0.7623,
+       0.7824
+      ],
+      [
+       0.7921,
+       0.7061
+      ],
+      [
+       0.8956,
+       0.6653
+      ],
+      [
+       0.8781,
+       0.6324
+      ],
+      [
+       0.7623,
+       0.5495
+      ],
+      [
+       0.7465,
+       0.4547
+      ],
+      [
+       0.7395,
+       0.3574
+      ],
+      [
+       0.7167,
+       0.2837
+      ],
+      [
+       0.6675,
+       0.26
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "7d23c4ab-09a1-4dec-a30d-e3a7ed3971d2",
+   "route_id": 580472,
+   "num": 16,
+   "name": "Wild Body",
+   "vgrade": "V2",
+   "grade": "6A",
+   "fa": "-",
+   "boulder": "현충 바위(5)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/wild-body",
+   "lines": [
+    {
+     "photoId": 223547,
+     "points": [
+      [
+       0.4632,
+       0.6495
+      ],
+      [
+       0.5404,
+       0.5889
+      ],
+      [
+       0.5912,
+       0.3797
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "2f052565-c7e8-4757-87be-b97f5e1904cc",
+   "route_id": 580473,
+   "num": 17,
+   "name": "하남좌(Hanam Left)",
+   "vgrade": "V4",
+   "grade": "6B+",
+   "fa": "-",
+   "boulder": "현충 바위(6)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/hanam-left",
+   "lines": [
+    {
+     "photoId": 223548,
+     "points": [
+      [
+       0.3895,
+       0.6363
+      ],
+      [
+       0.3825,
+       0.535
+      ],
+      [
+       0.4544,
+       0.4271
+      ],
+      [
+       0.4684,
+       0.3047
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "6dbc4d5e-7b9b-4972-a994-10ae32bdd0d5",
+   "route_id": 580474,
+   "num": 18,
+   "name": "상여좌(Sangyeo Left)",
+   "vgrade": "V2",
+   "grade": "6A",
+   "fa": "-",
+   "boulder": "현충 바위(6)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/sangyeo-left",
+   "lines": [
+    {
+     "photoId": 223548,
+     "points": [
+      [
+       0.6228,
+       0.5679
+      ],
+      [
+       0.6053,
+       0.4916
+      ],
+      [
+       0.7175,
+       0.3824
+      ],
+      [
+       0.7158,
+       0.2797
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "a4b551cb-15b1-42d3-bf0b-7e71c69da41a",
+   "route_id": 580471,
+   "num": 19,
+   "name": "Black Mamba",
+   "vgrade": "V6",
+   "grade": "7A",
+   "fa": "-",
+   "boulder": "현충 바위(7)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/black-mamba-580471",
+   "lines": [
+    {
+     "photoId": 223613,
+     "points": [
+      [
+       0.43,
+       0.6999
+      ],
+      [
+       0.4699,
+       0.5809
+      ],
+      [
+       0.3824,
+       0.4663
+      ],
+      [
+       0.3892,
+       0.2816
+      ],
+      [
+       0.3187,
+       0.1765
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "ce5aa281-f7db-4e9e-93fa-2734d68239e4",
+   "route_id": 582276,
+   "num": 20,
+   "name": "Black Mamba sit",
+   "vgrade": "V7",
+   "grade": "7A+",
+   "fa": "-",
+   "boulder": "현충 바위(7)",
+   "thetopo_url": "https://thetopo.com/crags/memorial-boulder/routes/black-mamba-sit",
+   "lines": [
+    {
+     "photoId": 223613,
+     "points": [
+      [
+       0.4377,
+       0.8205
+      ],
+      [
+       0.3711,
+       0.7061
+      ],
+      [
+       0.4623,
+       0.585
+      ],
+      [
+       0.3886,
+       0.4587
+      ],
+      [
+       0.3728,
+       0.2719
+      ],
+      [
+       0.3202,
+       0.1732
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}
