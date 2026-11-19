@@ -1,0 +1,16 @@
+{
+ "crags": [
+  {
+   "name": "gamja",
+   "database_id": "99ad5ebc-111e-439b-aa3d-d1318e1930f3",
+   "routes_file": "test/gamja_routes.json",
+   "geometry_file": "test/gamja_topo_geometry.json"
+  },
+  {
+   "name": "memorial",
+   "database_id": "0609f436-f245-4047-9754-31c439694bca",
+   "routes_file": "test/memorial_routes.json",
+   "geometry_file": "test/memorial_topo_geometry.json"
+  }
+ ]
+}
