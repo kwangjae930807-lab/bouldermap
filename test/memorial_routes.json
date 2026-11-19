@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-19T17:18:29+09:00",
+ "updated": "2026-11-19T17:19:38+09:00",
  "source": "notion",
  "routes": [
   {
    "key": "4af046ca-fe4e-4641-a380-8858f2ac04aa",
    "route_id": 580462,
    "num": 1,
-   "name": "찐진이(TrueJin) [자동동기화]",
+   "name": "찐진이(TrueJin)",
    "vgrade": "V5",
    "grade": "6C+",
    "fa": "-",
