@@ -1,0 +1,103 @@
+{
+ "crag": "현충 바위",
+ "boulders": [
+  {
+   "key": "memorial-1",
+   "name": "현충 바위(1)",
+   "order": 1,
+   "lat": 37.531188,
+   "lng": 127.236105,
+   "photos": [
+    {
+     "photoId": 223542,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/369/369127/p1120q40-16476cb8462c9648c25756cb0e30df2b.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "memorial-2",
+   "name": "현충 바위(2)",
+   "order": 2,
+   "lat": 37.531188,
+   "lng": 127.236105,
+   "photos": [
+    {
+     "photoId": 223544,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/369/369129/p1120q40-e151bbc7ffb541a51103af6d1ada115c.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "memorial-3",
+   "name": "현충 바위(3)",
+   "order": 3,
+   "lat": 37.531188,
+   "lng": 127.236105,
+   "photos": [
+    {
+     "photoId": 223545,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/369/369130/p1120q40-a86e1d2c3e8ad841f0f467603b11cd98.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "memorial-4",
+   "name": "현충 바위(4)",
+   "order": 4,
+   "lat": 37.531188,
+   "lng": 127.236105,
+   "photos": [
+    {
+     "photoId": 223546,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/369/369131/p1120q40-2198b589596d33bc1699055135643dd2.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "memorial-5",
+   "name": "현충 바위(5)",
+   "order": 5,
+   "lat": 37.531188,
+   "lng": 127.236105,
+   "photos": [
+    {
+     "photoId": 223547,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/369/369132/p1120q40-d2ef08020580fe9bcdc3d6ec3c97fd42.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "memorial-6",
+   "name": "현충 바위(6)",
+   "order": 6,
+   "lat": 37.531188,
+   "lng": 127.236105,
+   "photos": [
+    {
+     "photoId": 223548,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/369/369133/p1120q40-5913f29c618877744d3dcd6e5b496b39.jpg",
+     "order": 1
+    }
+   ]
+  },
+  {
+   "key": "memorial-7",
+   "name": "현충 바위(7)",
+   "order": 7,
+   "lat": 37.531188,
+   "lng": 127.236105,
+   "photos": [
+    {
+     "photoId": 223613,
+     "imageUrl": "https://storage.e5gc6.upcloudobjects.com/photos/000/369/369237/p1120q40-8980bdd8097173fbcf309ef02ef3f155.jpg",
+     "order": 1
+    }
+   ]
+  }
+ ]
+}
