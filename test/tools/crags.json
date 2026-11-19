@@ -11,6 +11,18 @@
    "database_id": "0609f436-f245-4047-9754-31c439694bca",
    "routes_file": "test/memorial_routes.json",
    "geometry_file": "test/memorial_topo_geometry.json"
+  },
+  {
+   "name": "gamja-prod",
+   "database_id": "219fb3ae-797c-4c42-a86f-6e4151ba40f1",
+   "routes_file": "topo/gamja_routes.json",
+   "geometry_file": "topo/gamja_topo_geometry.json"
+  },
+  {
+   "name": "memorial-prod",
+   "database_id": "a3ac3875-befd-49ce-96bd-aa7a502d485c",
+   "routes_file": "topo/memorial_routes.json",
+   "geometry_file": "topo/memorial_topo_geometry.json"
   }
  ]
 }
