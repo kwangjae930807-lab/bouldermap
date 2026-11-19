@@ -354,11 +354,14 @@ def main():
     ap.add_argument('--routes-file', default=os.path.join(V2, 'test', 'gamja_routes.json'))
     ap.add_argument('--geometry-file', default=os.path.join(V2, 'test', 'gamja_topo_geometry.json'))
     ap.add_argument('--log-file', default=os.path.join(V2, 'sync_log.jsonl'))
+    ap.add_argument('--config', help='다암장 설정 JSON (--source api 로 모든 암장 순차 동기화, 암장별 독립 안전장치)')
     ap.add_argument('--upload', action='store_true')
     ap.add_argument('--dry', action='store_true')
     ap.add_argument('--force', action='store_true')
     a = ap.parse_args()
 
+    if a.config:
+        sys.exit(run_config(a))
     now = datetime.now(KST).isoformat(timespec='seconds')
     if a.source == 'rows':
         rows = json.load(open(a.rows))
@@ -369,11 +372,20 @@ def main():
         if not tok:
             sys.exit('NOTION_TOKEN 환경변수 필요')
         rows = read_rows_api(a.database_id, tok)
-    prev = json.load(open(a.routes_file)) if os.path.exists(a.routes_file) else {'routes': []}
-    geometry = json.load(open(a.geometry_file)) if os.path.exists(a.geometry_file) else None
+    code, new = sync_core('single', rows, a.routes_file, a.geometry_file, a.log_file, a.source, now, a.force, a.dry)
+    if code:
+        sys.exit(code)
+    if a.upload and not a.dry:
+        print('github:', upload_if_changed(new, 'test: sync gamja routes from notion'))
+
+
+def sync_core(name, rows, routes_file, geometry_file, log_file, source, now, force, dry):
+    """한 암장 처리: 변환 -> 안전장치 -> 파일 저장. (종료코드, 새 routes) 반환. 0=정상, 2=안전장치 중단"""
+    prev = json.load(open(routes_file)) if os.path.exists(routes_file) else {'routes': []}
+    geometry = json.load(open(geometry_file)) if geometry_file and os.path.exists(geometry_file) else None
     new, rep = transform(rows, prev, now, geometry)
-    print('rows=%d routes=%d added=%d removed=%d changed=%d warnings=%d' % (
-        len(rows), len(new['routes']), len(rep['added']), len(rep['removed']), len(rep['changed']), len(rep['warnings'])))
+    print('[%s] rows=%d routes=%d added=%d removed=%d changed=%d warnings=%d' % (
+        name, len(rows), len(new['routes']), len(rep['added']), len(rep['removed']), len(rep['changed']), len(rep['warnings'])))
     for k in ('added', 'removed'):
         for x in rep[k]:
             print('  %s: %s' % (k, x))
@@ -381,21 +393,44 @@ def main():
         print('  changed: %s %s' % (c['row'], json.dumps(c['fields'], ensure_ascii=False)[:200]))
     for w in rep['warnings']:
         print('  WARN:', w)
-    err = None if a.force else guard(rows, prev, new)
+    err = None if force else guard(rows, prev, new)
     if err:
-        print('ERROR(중단, 저장/업로드 안 함):', err)
-        log_write(a.log_file, dict(at=now, source=a.source, status='aborted', error=err, rows=len(rows), routes_prev=len(prev.get('routes', []))))
-        sys.exit(2)
+        print('ERROR[%s](중단, 저장/업로드 안 함): %s' % (name, err))
+        log_write(log_file, dict(at=now, crag=name, source=source, status='aborted', error=err, rows=len(rows),
+                                 routes_prev=len(prev.get('routes', []))))
+        return 2, None
     changed = canonical(prev) != canonical(new)
-    print('changed vs local file:', changed)
-    log_write(a.log_file, dict(at=now, source=a.source, status='dry' if a.dry else 'ok', rows=len(rows), routes=len(new['routes']),
-                               file_changed=changed, **rep))
-    if a.dry:
-        return
-    if changed:
-        open(a.routes_file, 'w', encoding='utf-8').write(dumps_compact(new))
-    if a.upload:
-        print('github:', upload_if_changed(new, 'test: sync gamja routes from notion'))
+    print('[%s] changed vs local file: %s' % (name, changed))
+    log_write(log_file, dict(at=now, crag=name, source=source, status='dry' if dry else 'ok', rows=len(rows),
+                             routes=len(new['routes']), file_changed=changed, **rep))
+    if not dry and changed:
+        open(routes_file, 'w', encoding='utf-8').write(dumps_compact(new))
+    return 0, new
+
+
+def run_config(a):
+    """다암장 모드: config JSON = {"crags":[{"name","database_id","routes_file","geometry_file"}]}
+    암장마다 독립 실행 (한 암장 실패/안전장치 중단이 다른 암장을 막지 않음). 하나라도 실패하면 종료코드 1."""
+    cfg = json.load(open(a.config))
+    tok = os.environ.get('NOTION_TOKEN')
+    if not tok:
+        print('NOTION_TOKEN 환경변수 필요')
+        return 1
+    failed = []
+    for c in cfg['crags']:
+        name = c['name']
+        now = datetime.now(KST).isoformat(timespec='seconds')
+        try:
+            rows = read_rows_api(c['database_id'], tok)
+            code, _ = sync_core(name, rows, c['routes_file'], c.get('geometry_file'), a.log_file, 'api', now, a.force, a.dry)
+            if code:
+                failed.append('%s(guard)' % name)
+        except Exception as e:      # 한 암장 오류가 다른 암장을 막지 않음
+            print('ERROR[%s]: %s' % (name, repr(e)[:400]))
+            log_write(a.log_file, dict(at=now, crag=name, source='api', status='error', error=repr(e)[:300]))
+            failed.append('%s(error)' % name)
+    print('SUMMARY failed=%s' % (failed or 'none'))
+    return 1 if failed else 0
 
 
 if __name__ == '__main__':
