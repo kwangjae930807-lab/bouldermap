@@ -1,0 +1,1838 @@
+{
+ "updated": "2026-11-19T00:00:00+09:00",
+ "source": "notion",
+ "routes": [
+  {
+   "key": "ca1e8628-46f6-4488-89a0-c01a9f7f5d42",
+   "route_id": 336198,
+   "num": 1,
+   "name": "Wild Wild East",
+   "vgrade": "V8",
+   "grade": "7B+",
+   "fa": "LEE Donggyu (2020-03-01)",
+   "boulder": "감자볼더(1)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/wild-wild-east",
+   "lines": [
+    {
+     "photoId": 101834,
+     "points": [
+      [
+       0.473,
+       0.8903
+      ],
+      [
+       0.4901,
+       0.8055
+      ],
+      [
+       0.5125,
+       0.5936
+      ],
+      [
+       0.5033,
+       0.403
+      ],
+      [
+       0.5322,
+       0.2102
+      ],
+      [
+       0.5164,
+       0.0025
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "032e09d1-f491-4e63-8401-128fbd8b8104",
+   "route_id": 471801,
+   "num": 2,
+   "name": "L",
+   "vgrade": "V8",
+   "grade": "7B",
+   "fa": "",
+   "boulder": "감자볼더(1)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/l-471801",
+   "lines": [
+    {
+     "photoId": 101834,
+     "points": [
+      [
+       0.6468,
+       0.6513
+      ],
+      [
+       0.5271,
+       0.7064
+      ],
+      [
+       0.4942,
+       0.6555
+      ],
+      [
+       0.3495,
+       0.4394
+      ],
+      [
+       0.3074,
+       -0.0013
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "80e29326-4c31-483f-8eef-097369fc91f4",
+   "route_id": 421988,
+   "num": 3,
+   "name": "Green",
+   "vgrade": "V8",
+   "grade": "7B+",
+   "fa": "",
+   "boulder": "감자볼더(1)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/green-421988",
+   "lines": [
+    {
+     "photoId": 101834,
+     "points": [
+      [
+       0.6627,
+       0.6756
+      ],
+      [
+       0.6627,
+       0.6756
+      ],
+      [
+       0.5244,
+       0.7566
+      ],
+      [
+       0.504,
+       0.432
+      ],
+      [
+       0.5419,
+       0.1929
+      ],
+      [
+       0.5273,
+       0.0241
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "812b54a8-e303-4a49-8539-7ad15eada1f0",
+   "route_id": 551090,
+   "num": 4,
+   "name": "Worm traverse(송충이 트래버스)",
+   "vgrade": "V3",
+   "grade": "6A",
+   "fa": "",
+   "boulder": "감자볼더(2)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/song-choong-ee-traverse",
+   "lines": [
+    {
+     "photoId": 58734,
+     "points": [
+      [
+       0.2262,
+       0.5704
+      ],
+      [
+       0.2493,
+       0.4488
+      ],
+      [
+       0.3486,
+       0.5192
+      ],
+      [
+       0.3486,
+       0.1467
+      ],
+      [
+       0.3734,
+       0.1186
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "9401eeb6-6a7c-442e-9580-aeeb1f8f56a0",
+   "route_id": 240681,
+   "num": 5,
+   "name": "Leech(거머리)",
+   "vgrade": "V3",
+   "grade": "6A+",
+   "fa": "",
+   "boulder": "감자볼더(2)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/leech",
+   "lines": [
+    {
+     "photoId": 58734,
+     "points": [
+      [
+       0.2513,
+       0.4705
+      ],
+      [
+       0.2526,
+       0.3996
+      ],
+      [
+       0.2605,
+       0.315
+      ],
+      [
+       0.2724,
+       0.2461
+      ],
+      [
+       0.2789,
+       0.189
+      ],
+      [
+       0.2842,
+       0.1634
+      ],
+      [
+       0.2908,
+       0.1516
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "be298fe9-08ed-4640-bb9e-5af614fcd517",
+   "route_id": 240680,
+   "num": 6,
+   "name": "A happy day",
+   "vgrade": "VB",
+   "grade": "3",
+   "fa": "",
+   "boulder": "감자볼더(2)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/a-happy-day",
+   "lines": [
+    {
+     "photoId": 58734,
+     "points": [
+      [
+       0.3237,
+       0.4902
+      ],
+      [
+       0.3434,
+       0.3661
+      ],
+      [
+       0.3671,
+       0.2579
+      ],
+      [
+       0.3658,
+       0.2087
+      ],
+      [
+       0.3645,
+       0.124
+      ],
+      [
+       0.3803,
+       0.1102
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "68a93a2f-7eca-47ab-80c5-71d2a811c6c5",
+   "route_id": 240679,
+   "num": 7,
+   "name": "Potato(감자)",
+   "vgrade": "V4",
+   "grade": "6B+",
+   "fa": "",
+   "boulder": "감자볼더(2)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/potato",
+   "lines": [
+    {
+     "photoId": 58734,
+     "points": [
+      [
+       0.3842,
+       0.6949
+      ],
+      [
+       0.3961,
+       0.5394
+      ],
+      [
+       0.4368,
+       0.4665
+      ],
+      [
+       0.4697,
+       0.3209
+      ],
+      [
+       0.4697,
+       0.1791
+      ],
+      [
+       0.4658,
+       0.1004
+      ],
+      [
+       0.4737,
+       0.0846
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "1e85554d-ac9e-43b8-bf9a-a24584170344",
+   "route_id": 239694,
+   "num": 8,
+   "name": "Ninja Turtles",
+   "vgrade": "V4",
+   "grade": "6B+",
+   "fa": "",
+   "boulder": "감자볼더(2)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/ninja-turtles-239694",
+   "lines": [
+    {
+     "photoId": 58734,
+     "points": [
+      [
+       0.4487,
+       0.7461
+      ],
+      [
+       0.5039,
+       0.6063
+      ],
+      [
+       0.5211,
+       0.5118
+      ],
+      [
+       0.5592,
+       0.2776
+      ],
+      [
+       0.6132,
+       0.1575
+      ],
+      [
+       0.5553,
+       0.122
+      ],
+      [
+       0.5526,
+       0.1043
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "ab9ce42a-db08-4401-8e96-d9d9a5813d9a",
+   "route_id": 240563,
+   "num": 9,
+   "name": "Ninja Turtles standing",
+   "vgrade": "V2",
+   "grade": "5+",
+   "fa": "",
+   "boulder": "감자볼더(2)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/ninja-turtles-standing",
+   "lines": [
+    {
+     "photoId": 58734,
+     "points": [
+      [
+       0.5316,
+       0.5276
+      ],
+      [
+       0.5763,
+       0.2776
+      ],
+      [
+       0.6092,
+       0.1732
+      ],
+      [
+       0.6105,
+       0.1358
+      ],
+      [
+       0.5947,
+       0.1142
+      ],
+      [
+       0.5697,
+       0.1004
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "45ab2923-657c-4c9e-bb07-831f1b3bea8e",
+   "route_id": 239696,
+   "num": 10,
+   "name": "Neruda Avenue",
+   "vgrade": "V7",
+   "grade": "7A+",
+   "fa": "",
+   "boulder": "감자볼더(3)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/neruda-avenue",
+   "lines": [
+    {
+     "photoId": 58735,
+     "points": [
+      [
+       0.2842,
+       0.7368
+      ],
+      [
+       0.4053,
+       0.7439
+      ],
+      [
+       0.4908,
+       0.7526
+      ],
+      [
+       0.5882,
+       0.7702
+      ],
+      [
+       0.6224,
+       0.7421
+      ],
+      [
+       0.6211,
+       0.7
+      ],
+      [
+       0.8079,
+       0.5772
+      ],
+      [
+       0.7908,
+       0.4877
+      ],
+      [
+       0.6737,
+       0.2825
+      ],
+      [
+       0.6553,
+       0.1404
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "9d963585-00ef-4c44-bc88-e7114f588a37",
+   "route_id": 471796,
+   "num": 11,
+   "name": "Under control",
+   "vgrade": "V9",
+   "grade": "7C",
+   "fa": "",
+   "boulder": "감자볼더(3)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/under-control-471796",
+   "lines": [
+    {
+     "photoId": 58735,
+     "points": [
+      [
+       0.4939,
+       0.7033
+      ],
+      [
+       0.6162,
+       0.7015
+      ],
+      [
+       0.6833,
+       0.5314
+      ],
+      [
+       0.7768,
+       0.4822
+      ],
+      [
+       0.7149,
+       0.2963
+      ],
+      [
+       0.6689,
+       0.1401
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "fd93954b-9b63-46c3-854d-e03e38819a35",
+   "route_id": 239695,
+   "num": 12,
+   "name": "Three-cushion",
+   "vgrade": "V5",
+   "grade": "6C+",
+   "fa": "",
+   "boulder": "감자볼더(3)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/three-cushion",
+   "lines": [
+    {
+     "photoId": 58735,
+     "points": [
+      [
+       0.6934,
+       0.7947
+      ],
+      [
+       0.6237,
+       0.7404
+      ],
+      [
+       0.6276,
+       0.7
+      ],
+      [
+       0.8145,
+       0.6053
+      ],
+      [
+       0.7816,
+       0.4807
+      ],
+      [
+       0.6592,
+       0.286
+      ],
+      [
+       0.6487,
+       0.1351
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "84ce0884-6fda-4e57-860d-34e642d87ee6",
+   "route_id": 240682,
+   "num": 13,
+   "name": "Spider",
+   "vgrade": "V6",
+   "grade": "7A",
+   "fa": "Dong Young Kim (2017-05-07)",
+   "boulder": "감자볼더(3)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/spider-240682",
+   "lines": [
+    {
+     "photoId": 58735,
+     "points": [
+      [
+       0.7224,
+       0.8
+      ],
+      [
+       0.7632,
+       0.7632
+      ],
+      [
+       0.7592,
+       0.7158
+      ],
+      [
+       0.8026,
+       0.6509
+      ],
+      [
+       0.8118,
+       0.6
+      ],
+      [
+       0.7974,
+       0.4789
+      ],
+      [
+       0.725,
+       0.2965
+      ],
+      [
+       0.6711,
+       0.1386
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "5bfbd08d-6f84-4334-badf-badd58673735",
+   "route_id": 239698,
+   "num": 14,
+   "name": "Deadpool",
+   "vgrade": "V8",
+   "grade": "7B",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/deadpool-239698",
+   "lines": [
+    {
+     "photoId": 58736,
+     "points": [
+      [
+       0.2145,
+       0.6772
+      ],
+      [
+       0.1816,
+       0.5492
+      ],
+      [
+       0.1632,
+       0.5217
+      ],
+      [
+       0.1816,
+       0.4193
+      ],
+      [
+       0.2026,
+       0.3287
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "5050e19d-2fd0-40c0-8e00-b880a1a6defe",
+   "route_id": 239697,
+   "num": 15,
+   "name": "One Shot One Kill",
+   "vgrade": "V4",
+   "grade": "6B+",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/one-shot-one-kill",
+   "lines": [
+    {
+     "photoId": 58736,
+     "points": [
+      [
+       0.2447,
+       0.622
+      ],
+      [
+       0.1855,
+       0.5492
+      ],
+      [
+       0.1618,
+       0.5276
+      ],
+      [
+       0.1711,
+       0.4291
+      ],
+      [
+       0.2053,
+       0.3622
+      ],
+      [
+       0.2118,
+       0.3287
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "4aa02bd4-ec9b-4268-a1d3-419e56b44e79",
+   "route_id": 318595,
+   "num": 16,
+   "name": "Couch potato",
+   "vgrade": "V5",
+   "grade": "6C",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/couch-potato-318595",
+   "lines": [
+    {
+     "photoId": 58736,
+     "points": [
+      [
+       0.25,
+       0.6181
+      ],
+      [
+       0.2145,
+       0.5217
+      ],
+      [
+       0.2263,
+       0.4508
+      ],
+      [
+       0.2079,
+       0.4075
+      ],
+      [
+       0.1974,
+       0.3307
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "47f66814-2aea-41ca-a510-21b4ea834043",
+   "route_id": 240058,
+   "num": 17,
+   "name": "8.15",
+   "vgrade": "V4",
+   "grade": "6B+",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/8-15-240058",
+   "lines": [
+    {
+     "photoId": 58736,
+     "points": [
+      [
+       0.3961,
+       0.628
+      ],
+      [
+       0.3487,
+       0.5472
+      ],
+      [
+       0.3342,
+       0.5256
+      ],
+      [
+       0.3171,
+       0.372
+      ],
+      [
+       0.3289,
+       0.2894
+      ],
+      [
+       0.3211,
+       0.2598
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "8aa55536-10e3-4aa7-9efd-b48defd7cf4c",
+   "route_id": 471787,
+   "num": 18,
+   "name": "새우깡",
+   "vgrade": "V5",
+   "grade": "6C+",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/471787",
+   "lines": [
+    {
+     "photoId": 58736,
+     "points": [
+      [
+       0.3978,
+       0.648
+      ],
+      [
+       0.336,
+       0.528
+      ],
+      [
+       0.2241,
+       0.526
+      ],
+      [
+       0.2096,
+       0.4217
+      ],
+      [
+       0.2004,
+       0.3252
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "c67e77e1-7b5d-48ae-9df3-19496e65a22a",
+   "route_id": 240059,
+   "num": 19,
+   "name": "Armstrong",
+   "vgrade": "V6",
+   "grade": "7A",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/armstrong-240059",
+   "lines": [
+    {
+     "photoId": 58736,
+     "points": [
+      [
+       0.4,
+       0.6358
+      ],
+      [
+       0.4645,
+       0.5098
+      ],
+      [
+       0.4395,
+       0.4429
+      ],
+      [
+       0.4132,
+       0.3091
+      ],
+      [
+       0.4276,
+       0.1909
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "ad9605a5-6bfe-4b87-8c2f-ba8b58b8e364",
+   "route_id": 240683,
+   "num": 20,
+   "name": "Frightening guy(무서운 놈)",
+   "vgrade": "V5",
+   "grade": "6C",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/frightening-guy",
+   "lines": [
+    {
+     "photoId": 58736,
+     "points": [
+      [
+       0.5197,
+       0.7638
+      ],
+      [
+       0.5487,
+       0.628
+      ],
+      [
+       0.5395,
+       0.5945
+      ],
+      [
+       0.5171,
+       0.5059
+      ],
+      [
+       0.4974,
+       0.4626
+      ],
+      [
+       0.4645,
+       0.3839
+      ],
+      [
+       0.4421,
+       0.2992
+      ],
+      [
+       0.4539,
+       0.1791
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "74259f0c-d376-4ee5-baa2-c44fac147f5c",
+   "route_id": 240066,
+   "num": 21,
+   "name": "Baby Step",
+   "vgrade": "V2",
+   "grade": "5+",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/baby-step",
+   "lines": [
+    {
+     "photoId": 58736,
+     "points": [
+      [
+       0.5329,
+       0.7579
+      ],
+      [
+       0.5645,
+       0.687
+      ],
+      [
+       0.5579,
+       0.6201
+      ],
+      [
+       0.5618,
+       0.4744
+      ],
+      [
+       0.4592,
+       0.3543
+      ],
+      [
+       0.5197,
+       0.1516
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "64bafa21-bf63-4dd6-a072-d48bc41e937a",
+   "route_id": 240065,
+   "num": 22,
+   "name": "Super Charge",
+   "vgrade": "V10",
+   "grade": "7C+",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/super-charge",
+   "lines": [
+    {
+     "photoId": 58736,
+     "points": [
+      [
+       0.6013,
+       0.6102
+      ],
+      [
+       0.6316,
+       0.5728
+      ],
+      [
+       0.7592,
+       0.5315
+      ],
+      [
+       0.7145,
+       0.4665
+      ],
+      [
+       0.7539,
+       0.2362
+      ],
+      [
+       0.675,
+       0.0925
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "72ba59e3-4e7a-4cd1-af7b-01f760a76715",
+   "route_id": 240064,
+   "num": 23,
+   "name": "First Charge",
+   "vgrade": "V8",
+   "grade": "7B+",
+   "fa": "",
+   "boulder": "감자볼더(4)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/first-charge-240064",
+   "lines": [
+    {
+     "photoId": 58736,
+     "points": [
+      [
+       0.6342,
+       0.5748
+      ],
+      [
+       0.7697,
+       0.5236
+      ],
+      [
+       0.7132,
+       0.4803
+      ],
+      [
+       0.7316,
+       0.3268
+      ],
+      [
+       0.7566,
+       0.2303
+      ],
+      [
+       0.6592,
+       0.1063
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "98b780ac-3f63-4b51-af97-80f738075242",
+   "route_id": 240067,
+   "num": 24,
+   "name": "Bud",
+   "vgrade": "V5",
+   "grade": "6C+",
+   "fa": "",
+   "boulder": "감자볼더(5)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/bud-240067",
+   "lines": [
+    {
+     "photoId": 58803,
+     "points": [
+      [
+       0.4026,
+       0.6055
+      ],
+      [
+       0.5211,
+       0.5365
+      ],
+      [
+       0.5158,
+       0.432
+      ],
+      [
+       0.3671,
+       0.3767
+      ],
+      [
+       0.3368,
+       0.3787
+      ],
+      [
+       0.3592,
+       0.2012
+      ],
+      [
+       0.4645,
+       0.1499
+      ],
+      [
+       0.4368,
+       0.1262
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "67df2b7a-1dbc-4863-8cce-aadf56143a09",
+   "route_id": 240553,
+   "num": 25,
+   "name": "Time Machine",
+   "vgrade": "V7",
+   "grade": "7A+",
+   "fa": "Dong Young Kim (2018-04-08)",
+   "boulder": "감자볼더(5)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/time-machine-240553",
+   "lines": [
+    {
+     "photoId": 58803,
+     "points": [
+      [
+       0.4289,
+       0.6095
+      ],
+      [
+       0.5197,
+       0.5424
+      ],
+      [
+       0.5316,
+       0.4911
+      ],
+      [
+       0.5263,
+       0.4379
+      ],
+      [
+       0.5039,
+       0.4024
+      ],
+      [
+       0.4789,
+       0.3925
+      ],
+      [
+       0.3645,
+       0.3629
+      ],
+      [
+       0.35,
+       0.3452
+      ],
+      [
+       0.3618,
+       0.2682
+      ],
+      [
+       0.3816,
+       0.2091
+      ],
+      [
+       0.4079,
+       0.1913
+      ],
+      [
+       0.4421,
+       0.1736
+      ],
+      [
+       0.4658,
+       0.1578
+      ],
+      [
+       0.4711,
+       0.1341
+      ],
+      [
+       0.4632,
+       0.1183
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "d6a03ad1-781d-4ca6-9bad-da533aabb38a",
+   "route_id": 471799,
+   "num": 26,
+   "name": "Adios amigos",
+   "vgrade": "V9",
+   "grade": "7C",
+   "fa": "",
+   "boulder": "감자볼더(5)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/adios-amigos",
+   "lines": [
+    {
+     "photoId": 58803,
+     "points": [
+      [
+       0.4478,
+       0.625
+      ],
+      [
+       0.5149,
+       0.5323
+      ],
+      [
+       0.3794,
+       0.3745
+      ],
+      [
+       0.2399,
+       0.3351
+      ],
+      [
+       0.1965,
+       0.2976
+      ],
+      [
+       0.2425,
+       0.1871
+      ],
+      [
+       0.2768,
+       0.1418
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "9b41d1bf-e715-4a22-9195-353e97d103a4",
+   "route_id": 240684,
+   "num": 27,
+   "name": "가제, We need him",
+   "vgrade": "미정",
+   "grade": "N/A",
+   "fa": "",
+   "boulder": "감자볼더(5)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/we-need-him",
+   "lines": [
+    {
+     "photoId": 58803,
+     "points": [
+      [
+       0.4579,
+       0.6174
+      ],
+      [
+       0.525,
+       0.5464
+      ],
+      [
+       0.5408,
+       0.4892
+      ],
+      [
+       0.5368,
+       0.432
+      ],
+      [
+       0.5382,
+       0.4103
+      ],
+      [
+       0.5868,
+       0.3333
+      ],
+      [
+       0.6632,
+       0.2623
+      ],
+      [
+       0.7303,
+       0.2209
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "a88f312a-a5c9-45a2-949a-e7556212cf2d",
+   "route_id": 241316,
+   "num": 28,
+   "name": "Real Time Machine",
+   "vgrade": "V9",
+   "grade": "7C",
+   "fa": "",
+   "boulder": "감자볼더(5)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/real-time-machine",
+   "lines": [
+    {
+     "photoId": 58803,
+     "points": [
+      [
+       0.5158,
+       0.5266
+      ],
+      [
+       0.3697,
+       0.3807
+      ],
+      [
+       0.3868,
+       0.142
+      ],
+      [
+       0.3934,
+       0.1262
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "bf3697f4-00b8-439a-8bad-cdc8ef645190",
+   "route_id": 694118,
+   "num": 29,
+   "name": "Armstrong (low)",
+   "vgrade": "V7",
+   "grade": "7A+",
+   "fa": "Jimmy Kim (2026-10-07)",
+   "boulder": "감자볼더(기타)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/armstrong-low",
+   "lines": []
+  },
+  {
+   "key": "01e53a2a-b6d1-4fc4-82be-ffdabf75e98c",
+   "route_id": 691801,
+   "num": 30,
+   "name": "8.15 low",
+   "vgrade": "V6",
+   "grade": "7A",
+   "fa": "",
+   "boulder": "감자볼더(기타)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/8-15-low",
+   "lines": []
+  },
+  {
+   "key": "65e325d7-5e30-4080-b490-b890bd7f2b3a",
+   "route_id": 474346,
+   "num": 31,
+   "name": "번득",
+   "vgrade": "V4",
+   "grade": "6B+",
+   "fa": "",
+   "boulder": "감자볼더(기타)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/474346",
+   "lines": []
+  },
+  {
+   "key": "8e9b8695-d77b-4a3b-82d7-5f5a79e7583c",
+   "route_id": 558823,
+   "num": 32,
+   "name": "Reach(검은허리)",
+   "vgrade": "V3",
+   "grade": "6A",
+   "fa": "",
+   "boulder": "감자볼더(기타)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/_black-belt",
+   "lines": []
+  },
+  {
+   "key": "51a1044b-10c4-4632-b634-b714c2a26237",
+   "route_id": 482799,
+   "num": 33,
+   "name": "G",
+   "vgrade": "V3",
+   "grade": "6A",
+   "fa": "",
+   "boulder": "감자볼더(기타)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/g-482799",
+   "lines": []
+  },
+  {
+   "key": "65f570e8-7e17-465b-9186-7d7191faf0b2",
+   "route_id": 554497,
+   "num": 34,
+   "name": "감자통 Gamjaton",
+   "vgrade": "V1",
+   "grade": "5",
+   "fa": "",
+   "boulder": "감자볼더(기타)",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/gamjaton",
+   "lines": []
+  },
+  {
+   "key": "4f9d809f-74a3-4cf9-a7a4-7e82fa4de815",
+   "route_id": 295436,
+   "num": 35,
+   "name": "Pebble Wrestler",
+   "vgrade": "V5",
+   "grade": "6C+",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/pebble-wrestler-295436",
+   "lines": [
+    {
+     "photoId": 86096,
+     "points": [
+      [
+       0.4553,
+       0.6947
+      ],
+      [
+       0.3526,
+       0.4281
+      ],
+      [
+       0.5763,
+       0.2842
+      ],
+      [
+       0.5961,
+       0.2018
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "1a27959c-dea7-4c88-bd89-d08fce6e00a4",
+   "route_id": 295437,
+   "num": 36,
+   "name": "Valar Morghulis",
+   "vgrade": "V9",
+   "grade": "7C",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/valar-morghulis-295437",
+   "lines": [
+    {
+     "photoId": 86097,
+     "points": [
+      [
+       0.4079,
+       0.6684
+      ],
+      [
+       0.5605,
+       0.6175
+      ],
+      [
+       0.5553,
+       0.4228
+      ],
+      [
+       0.4961,
+       0.1526
+      ],
+      [
+       0.5658,
+       0.1088
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "07e5d2c2-73f2-446c-b339-59e0f5b1d6d9",
+   "route_id": 295439,
+   "num": 37,
+   "name": "Tadpole",
+   "vgrade": "V3",
+   "grade": "6A+",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/tadpole-295439",
+   "lines": [
+    {
+     "photoId": 86098,
+     "points": [
+      [
+       0.3632,
+       0.6088
+      ],
+      [
+       0.375,
+       0.5053
+      ],
+      [
+       0.4132,
+       0.4474
+      ],
+      [
+       0.4026,
+       0.4
+      ],
+      [
+       0.3171,
+       0.3456
+      ],
+      [
+       0.1829,
+       0.214
+      ],
+      [
+       0.1158,
+       0.0649
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "a3318385-1c3b-4709-a0e5-97329d7a53c9",
+   "route_id": 295441,
+   "num": 38,
+   "name": "Broken Scouter",
+   "vgrade": "V7",
+   "grade": "7A+",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/broken-scouter",
+   "lines": [
+    {
+     "photoId": 86098,
+     "points": [
+      [
+       0.4421,
+       0.6596
+      ],
+      [
+       0.5171,
+       0.6561
+      ],
+      [
+       0.5211,
+       0.5772
+      ],
+      [
+       0.5605,
+       0.5719
+      ],
+      [
+       0.6513,
+       0.6632
+      ],
+      [
+       0.6803,
+       0.4789
+      ],
+      [
+       0.6974,
+       0.3491
+      ],
+      [
+       0.7026,
+       0.3263
+      ],
+      [
+       0.7145,
+       0.2842
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "38477466-0bb7-4248-ad04-22c068d94717",
+   "route_id": 295438,
+   "num": 39,
+   "name": "Frog",
+   "vgrade": "V6",
+   "grade": "7A",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/frog-295438",
+   "lines": [
+    {
+     "photoId": 86098,
+     "points": [
+      [
+       0.4789,
+       0.7123
+      ],
+      [
+       0.5171,
+       0.6596
+      ],
+      [
+       0.3618,
+       0.614
+      ],
+      [
+       0.1461,
+       0.5509
+      ],
+      [
+       0.2632,
+       0.4246
+      ],
+      [
+       0.325,
+       0.3509
+      ],
+      [
+       0.1658,
+       0.1965
+      ],
+      [
+       0.1066,
+       0.0649
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "84bdeb9c-2277-49a7-a891-37c09d008e80",
+   "route_id": 295440,
+   "num": 40,
+   "name": "Know When to Fold",
+   "vgrade": "V5",
+   "grade": "6C+",
+   "fa": "Hoseok Lee (2019-06-05)",
+   "boulder": "누워뜨는소",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/know-when-to-fold",
+   "lines": [
+    {
+     "photoId": 86098,
+     "points": [
+      [
+       0.8211,
+       0.7579
+      ],
+      [
+       0.8671,
+       0.6368
+      ],
+      [
+       0.8855,
+       0.5193
+      ],
+      [
+       0.8382,
+       0.4509
+      ],
+      [
+       0.7316,
+       0.3561
+      ],
+      [
+       0.7026,
+       0.3544
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "db3a6d26-f709-4d84-842b-32fe19d231f0",
+   "route_id": 246765,
+   "num": 41,
+   "name": "Dropbox",
+   "vgrade": "V7",
+   "grade": "7A+",
+   "fa": "",
+   "boulder": "Fossil Snake",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/dropbox-246765",
+   "lines": [
+    {
+     "photoId": 62153,
+     "points": [
+      [
+       0.4566,
+       0.8526
+      ],
+      [
+       0.225,
+       0.7667
+      ],
+      [
+       0.2671,
+       0.6825
+      ],
+      [
+       0.1592,
+       0.5825
+      ],
+      [
+       0.1658,
+       0.4719
+      ],
+      [
+       0.2329,
+       0.3018
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "0c038274-91e5-4199-96a1-3061a0c0bda5",
+   "route_id": 246764,
+   "num": 42,
+   "name": "Fossil Snake",
+   "vgrade": "V7",
+   "grade": "7A+",
+   "fa": "",
+   "boulder": "Fossil Snake",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/fossil-snake-246764",
+   "lines": [
+    {
+     "photoId": 62153,
+     "points": [
+      [
+       0.5671,
+       0.8175
+      ],
+      [
+       0.4355,
+       0.8632
+      ],
+      [
+       0.5842,
+       0.4702
+      ],
+      [
+       0.6855,
+       0.4228
+      ],
+      [
+       0.7276,
+       0.3088
+      ],
+      [
+       0.7158,
+       0.0281
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "f09de0ba-51c1-48bc-a2c3-b14f43b069d9",
+   "route_id": 246952,
+   "num": 43,
+   "name": "Leash",
+   "vgrade": "V5",
+   "grade": "6C",
+   "fa": "",
+   "boulder": "Fossil Snake",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/leash",
+   "lines": [
+    {
+     "photoId": 62256,
+     "points": [
+      [
+       0.4184,
+       0.6739
+      ],
+      [
+       0.5145,
+       0.4921
+      ],
+      [
+       0.6566,
+       0.3913
+      ],
+      [
+       0.7539,
+       0.3399
+      ],
+      [
+       0.6539,
+       0.1561
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "4c433c4f-2b8c-4729-9c5e-cdbbbd8ec49c",
+   "route_id": 246951,
+   "num": 44,
+   "name": "Barkbox",
+   "vgrade": "V4",
+   "grade": "6B",
+   "fa": "UK KIM (2018-06-06)",
+   "boulder": "Fossil Snake",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/barkbox",
+   "lines": [
+    {
+     "photoId": 62256,
+     "points": [
+      [
+       0.5329,
+       0.7292
+      ],
+      [
+       0.5855,
+       0.6621
+      ],
+      [
+       0.6184,
+       0.6364
+      ],
+      [
+       0.6276,
+       0.5277
+      ],
+      [
+       0.6579,
+       0.3794
+      ],
+      [
+       0.6974,
+       0.2628
+      ],
+      [
+       0.6487,
+       0.1482
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "2bb0fffc-f4ab-4480-9a45-b9cecd00bce8",
+   "route_id": 246762,
+   "num": 45,
+   "name": "Little Rhino",
+   "vgrade": "V1",
+   "grade": "5",
+   "fa": "",
+   "boulder": "Rhino",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/little-rhino",
+   "lines": [
+    {
+     "photoId": 62152,
+     "points": [
+      [
+       0.4013,
+       0.7079
+      ],
+      [
+       0.3276,
+       0.6168
+      ],
+      [
+       0.375,
+       0.4743
+      ],
+      [
+       0.3684,
+       0.3855
+      ],
+      [
+       0.4368,
+       0.2033
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "key": "ae168e67-a22e-4b35-b69c-fdcb66964f09",
+   "route_id": 246761,
+   "num": 46,
+   "name": "Rhino",
+   "vgrade": "V3",
+   "grade": "6A+",
+   "fa": "",
+   "boulder": "Rhino",
+   "thetopo_url": "https://thetopo.com/crags/15957/routes/rhino-246761",
+   "lines": [
+    {
+     "photoId": 62152,
+     "points": [
+      [
+       0.4053,
+       0.6893
+      ],
+      [
+       0.4605,
+       0.5841
+      ],
+      [
+       0.6382,
+       0.5
+      ],
+      [
+       0.5816,
+       0.3598
+      ],
+      [
+       0.5829,
+       0.0561
+      ],
+      [
+       0.5921,
+       0.0374
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}
